@@ -1,363 +1,182 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Telecoms DQ Case Study — Subscriber Data Integrity in an M&A Context</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green:       #1a7a3f;
-      --green-mid:   #2a9d56;
-      --green-light: #e8f5ec;
-      --ink:         #0e1a14;
-      --ink-mid:     #3a4a40;
-      --ink-light:   #6b7a70;
-      --rule:        #d4e2d8;
-      --cream:       #f7faf8;
-      --white:       #ffffff;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telecoms DQ Case Study — Calvin Enobor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --green:#1a7a3f; --green-mid:#2a9d56; --green-light:#e8f5ec; --ink:#0e1a14; --ink-mid:#3a4a40; --ink-light:#6b7a70; --rule:#d4e2d8; --cream:#f7faf8; --white:#ffffff; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; }
+  a { text-decoration: none; color: inherit; }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 64px;
-      background: rgba(247,250,248,0.92); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-    }
-    .nav-logo {
-      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
-      color: var(--green); text-transform: uppercase; letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-    .nav-back {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; font-weight: 500; color: var(--ink-mid);
-      text-decoration: none; transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--green); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(247,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.05em; }
+  .nav-back { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink-mid); transition: color 0.2s; }
+  .nav-back:hover { color: var(--green); }
 
-    /* HERO BANNER */
-    .case-hero {
-      margin-top: 64px;
-      background: linear-gradient(135deg, #0d4a25 0%, var(--green) 50%, #0d5a2a 100%);
-      padding: 80px 48px 72px;
-      position: relative; overflow: hidden;
-    }
-    .case-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-    .case-hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
-    .case-hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
-      color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px;
-      border-radius: 100px; letter-spacing: 0.1em; text-transform: uppercase;
-      margin-bottom: 24px;
-    }
-    .case-hero h1 {
-      font-family: 'DM Serif Display', serif; font-size: clamp(34px, 5vw, 58px);
-      color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px;
-    }
-    .case-hero-sub {
-      font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.7);
-      margin-bottom: 40px; max-width: 640px;
-    }
-    .case-meta-row {
-      display: flex; flex-wrap: wrap; gap: 28px;
-    }
-    .case-meta-item { }
-    .case-meta-label {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 4px;
-    }
-    .case-meta-value {
-      font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9);
-    }
+  .case-hero { margin-top: 64px; background: linear-gradient(135deg, #0d4a25 0%, var(--green) 50%, #0d5a2a 100%); padding: 80px 48px 72px; position: relative; overflow: hidden; }
+  .case-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 48px 48px; }
+  .case-hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .case-hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 100px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+  .case-hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(34px, 5vw, 58px); color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .case-hero-sub { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.7); margin-bottom: 40px; max-width: 640px; }
+  .case-meta-row { display: flex; flex-wrap: wrap; gap: 28px; }
+  .case-meta-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .case-meta-value { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); }
 
-    /* STATS STRIP */
-    .stats-strip {
-      background: var(--white); border-bottom: 1px solid var(--rule);
-    }
-    .stats-strip-inner {
-      max-width: 860px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-    }
-    .stat-item {
-      padding: 28px 24px; border-right: 1px solid var(--rule);
-      text-align: center;
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: 'DM Serif Display', serif; font-size: 36px;
-      color: var(--green); line-height: 1; margin-bottom: 6px;
-    }
-    .stat-lbl { font-size: 12px; color: var(--ink-light); line-height: 1.4; }
+  .stats-strip { background: var(--white); border-bottom: 1px solid var(--rule); }
+  .stats-strip-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat-item { padding: 28px 24px; border-right: 1px solid var(--rule); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--green); line-height: 1; margin-bottom: 6px; }
+  .stat-lbl { font-size: 12px; color: var(--ink-light); line-height: 1.4; }
 
-    /* LAYOUT */
-    .case-layout {
-      max-width: 860px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 220px;
-      gap: 64px; padding: 64px 48px;
-      align-items: start;
-    }
-    .case-content { min-width: 0; }
+  .case-layout { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 220px; gap: 64px; padding: 64px 48px; align-items: start; }
+  .case-content { min-width: 0; }
+  .case-sidebar { position: sticky; top: 88px; }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-title { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-link { font-size: 13px; color: var(--ink-mid); padding: 6px 10px; border-radius: 6px; transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; }
+  .sidebar-link:hover { background: var(--green-light); color: var(--green); border-left-color: var(--green); }
+  .sidebar-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-mid); background: var(--cream); border: 1px solid var(--rule); padding: 4px 8px; border-radius: 4px; letter-spacing: 0.03em; }
+  .download-btn { display: flex; align-items: center; gap: 8px; background: var(--green); color: white; font-size: 13px; font-weight: 600; padding: 12px 16px; border-radius: 8px; transition: background 0.2s; margin-top: 8px; }
+  .download-btn:hover { background: var(--green-mid); }
 
-    /* SIDEBAR */
-    .case-sidebar { position: sticky; top: 88px; }
-    .sidebar-section { margin-bottom: 32px; }
-    .sidebar-title {
-      font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
-      color: var(--green); text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 14px;
-    }
-    .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
-    .sidebar-link {
-      font-size: 13px; color: var(--ink-mid); text-decoration: none;
-      padding: 6px 10px; border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
-      border-left: 2px solid transparent;
-    }
-    .sidebar-link:hover {
-      background: var(--green-light); color: var(--green);
-      border-left-color: var(--green);
-    }
-    .sidebar-tools { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tool-tag {
-      font-family: 'DM Mono', monospace; font-size: 10px;
-      color: var(--ink-mid); background: var(--cream);
-      border: 1px solid var(--rule); padding: 4px 8px;
-      border-radius: 4px; letter-spacing: 0.03em;
-    }
-    .download-btn {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--green); color: white;
-      font-size: 13px; font-weight: 600;
-      padding: 12px 16px; border-radius: 8px;
-      text-decoration: none; transition: background 0.2s;
-      margin-top: 8px;
-    }
-    .download-btn:hover { background: var(--green-mid); }
+  .case-section { margin-bottom: 56px; }
+  .case-section-num { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .case-section h2 { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--green-light); }
+  .case-section h3 { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin: 28px 0 12px; }
+  .case-section p { font-size: 15px; font-weight: 300; color: var(--ink-mid); margin-bottom: 16px; line-height: 1.8; }
+  .case-section p strong { font-weight: 600; color: var(--ink); }
 
-    /* CONTENT TYPOGRAPHY */
-    .case-section { margin-bottom: 56px; }
-    .case-section-num {
-      font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
-      color: var(--green); text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-    .case-section h2 {
-      font-family: 'DM Serif Display', serif; font-size: 30px;
-      color: var(--ink); letter-spacing: -0.01em; margin-bottom: 20px;
-      padding-bottom: 14px; border-bottom: 2px solid var(--green-light);
-    }
-    .case-section h3 {
-      font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600;
-      color: var(--ink); margin: 28px 0 12px;
-    }
-    .case-section p {
-      font-size: 15px; font-weight: 300; color: var(--ink-mid);
-      margin-bottom: 16px; line-height: 1.8;
-    }
-    .case-section p strong { font-weight: 600; color: var(--ink); }
+  .callout { display: flex; gap: 0; margin: 24px 0; border-radius: 8px; overflow: hidden; }
+  .callout-bar { width: 4px; background: var(--green); flex-shrink: 0; }
+  .callout-body { background: var(--green-light); padding: 18px 20px; flex: 1; }
+  .callout-label { font-size: 12px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .callout-text { font-size: 14px; font-weight: 300; color: var(--ink-mid); font-style: italic; line-height: 1.7; margin: 0; }
 
-    /* CALLOUT */
-    .callout {
-      display: flex; gap: 0; margin: 24px 0;
-      border-radius: 8px; overflow: hidden;
-    }
-    .callout-bar { width: 4px; background: var(--green); flex-shrink: 0; }
-    .callout-body {
-      background: var(--green-light); padding: 18px 20px; flex: 1;
-    }
-    .callout-label {
-      font-size: 12px; font-weight: 600; color: var(--green);
-      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
-    }
-    .callout-text {
-      font-size: 14px; font-weight: 300; color: var(--ink-mid);
-      font-style: italic; line-height: 1.7; margin: 0;
-    }
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  .data-table th { background: var(--green); color: white; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 16px; text-align: left; }
+  .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--rule); color: var(--ink-mid); vertical-align: top; }
+  .data-table tr:nth-child(even) td { background: var(--cream); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td strong { color: var(--ink); font-weight: 600; }
+  .data-table .highlight td { background: var(--green-light); font-weight: 600; color: var(--green); }
+  .data-table .warning td { color: #cc0000; font-weight: 600; }
 
-    /* DATA TABLE */
-    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-    .data-table th {
-      background: var(--green); color: white;
-      font-weight: 600; font-size: 12px; text-transform: uppercase;
-      letter-spacing: 0.05em; padding: 12px 16px; text-align: left;
-    }
-    .data-table td {
-      padding: 11px 16px; border-bottom: 1px solid var(--rule);
-      color: var(--ink-mid); vertical-align: top;
-    }
-    .data-table tr:nth-child(even) td { background: var(--cream); }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table td strong { color: var(--ink); font-weight: 600; }
-    .data-table .highlight td { background: var(--green-light); font-weight: 600; color: var(--green); }
-    .data-table .warning td { color: #cc0000; font-weight: 600; }
+  .case-list { list-style: none; margin: 16px 0 20px; display: flex; flex-direction: column; gap: 10px; }
+  .case-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; }
+  .case-list li::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
+  .case-list li strong { font-weight: 600; color: var(--ink); }
 
-    /* BULLET LIST */
-    .case-list { list-style: none; margin: 16px 0 20px; display: flex; flex-direction: column; gap: 10px; }
-    .case-list li {
-      display: flex; gap: 12px; align-items: flex-start;
-      font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.7;
-    }
-    .case-list li::before {
-      content: ''; width: 6px; height: 6px; background: var(--green);
-      border-radius: 50%; flex-shrink: 0; margin-top: 9px;
-    }
-    .case-list li strong { font-weight: 600; color: var(--ink); }
+  .impact-chain { margin: 24px 0; display: flex; flex-direction: column; gap: 0; }
+  .chain-step { display: flex; align-items: stretch; gap: 0; }
+  .chain-line { display: flex; flex-direction: column; align-items: center; width: 32px; flex-shrink: 0; }
+  .chain-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 14px; }
+  .chain-dot.red { background: #cc0000; }
+  .chain-connector { width: 2px; flex: 1; background: var(--rule); margin: 0 auto; }
+  .chain-step:last-child .chain-connector { display: none; }
+  .chain-content { padding: 10px 16px 18px; flex: 1; }
+  .chain-text { font-size: 14px; color: var(--ink-mid); font-weight: 300; line-height: 1.6; }
+  .chain-text.bold { font-weight: 600; color: var(--ink); }
+  .chain-text.red { font-weight: 600; color: #cc0000; }
 
-    /* IMPACT CHAIN */
-    .impact-chain { margin: 24px 0; display: flex; flex-direction: column; gap: 0; }
-    .chain-step {
-      display: flex; align-items: stretch; gap: 0;
-    }
-    .chain-line {
-      display: flex; flex-direction: column; align-items: center;
-      width: 32px; flex-shrink: 0;
-    }
-    .chain-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--green); flex-shrink: 0; margin-top: 14px;
-    }
-    .chain-dot.red { background: #cc0000; }
-    .chain-connector { width: 2px; flex: 1; background: var(--rule); margin: 0 auto; }
-    .chain-step:last-child .chain-connector { display: none; }
-    .chain-content {
-      padding: 10px 16px 18px; flex: 1;
-    }
-    .chain-text {
-      font-size: 14px; color: var(--ink-mid); font-weight: 300; line-height: 1.6;
-    }
-    .chain-text.bold { font-weight: 600; color: var(--ink); }
-    .chain-text.red { font-weight: 600; color: #cc0000; }
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
 
-    /* RESPONSIVE */
-    @media (max-width: 800px) {
-      nav { padding: 0 20px; }
-      .case-hero { padding: 60px 24px 52px; }
-      .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
-      .case-layout { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
-      .case-sidebar { position: static; }
-    }
-  </style>
+  @media (max-width: 800px) {
+    nav { padding: 0 20px; }
+    .case-hero { padding: 60px 24px 52px; }
+    .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    .case-layout { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+    .case-sidebar { position: static; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+  }
+</style>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="nav-logo">← DQ · Portfolio</a>
   <a href="index.html" class="nav-back">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Back to Portfolio
   </a>
 </nav>
 
-<!-- HERO -->
 <div class="case-hero">
   <div class="case-hero-inner">
-    <div class="case-hero-badge">📋 Portfolio Case Study · 01</div>
+    <div class="case-hero-badge">📋 Portfolio Case Study · Contract Engagement · March 2025 · Engagement · Anonymised</div>
     <h1>Subscriber Data Integrity<br>in an M&amp;A Context</h1>
-    <p class="case-hero-sub">A full-lifecycle data quality audit for a Nigerian telecoms operator undergoing ownership transition — spanning ~20 million subscriber records.</p>
+    <p class="case-hero-sub">A full-lifecycle data quality audit for a Nigerian telecoms operator undergoing ownership transition — spanning ~21.8 million gross subscriber records.</p>
     <div class="case-meta-row">
-      <div class="case-meta-item">
-        <div class="case-meta-label">Industry</div>
-        <div class="case-meta-value">Telecommunications — Nigeria</div>
-      </div>
-      <div class="case-meta-item">
-        <div class="case-meta-label">Engagement Type</div>
-        <div class="case-meta-value">M&amp;A Due Diligence / DQ Audit</div>
-      </div>
-      <div class="case-meta-item">
-        <div class="case-meta-label">Scope</div>
-        <div class="case-meta-value">~20 Million Records</div>
-      </div>
-      <div class="case-meta-item">
-        <div class="case-meta-label">Personal Contribution</div>
-        <div class="case-meta-value">4M+ Records Analysed</div>
-      </div>
+      <div><div class="case-meta-label">Industry</div><div class="case-meta-value">Telecommunications — Nigeria</div></div>
+      <div><div class="case-meta-label">Engagement Type</div><div class="case-meta-value">M&amp;A Due Diligence / DQ Audit</div></div>
+      <div><div class="case-meta-label">Date</div><div class="case-meta-value">March 2025</div></div>
+      <div><div class="case-meta-label">Personal Load</div><div class="case-meta-value">4M+ Records Analysed</div></div>
     </div>
   </div>
 </div>
 
-<!-- STATS STRIP -->
 <div class="stats-strip">
   <div class="stats-strip-inner">
-    <div class="stat-item">
-      <div class="stat-num">~20M</div>
-      <div class="stat-lbl">Total subscriber records in scope</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">1.8M</div>
-      <div class="stat-lbl">Duplicate accounts identified</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">~4M</div>
-      <div class="stat-lbl">Inactive subscribers classified</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">600+</div>
-      <div class="stat-lbl">CRM misclassifications corrected</div>
-    </div>
+    <div class="stat-item"><div class="stat-num">~21.8M</div><div class="stat-lbl">Gross subscriber records</div></div>
+    <div class="stat-item"><div class="stat-num">1.8M</div><div class="stat-lbl">Duplicates identified</div></div>
+    <div class="stat-item"><div class="stat-num">9%→30%</div><div class="stat-lbl">Collections improvement</div></div>
+    <div class="stat-item"><div class="stat-num">600+</div><div class="stat-lbl">CRM misclassifications</div></div>
   </div>
 </div>
 
-<!-- LAYOUT -->
 <div class="case-layout">
   <main class="case-content">
 
-    <!-- SECTION 1 -->
     <div class="case-section" id="s1">
       <p class="case-section-num">Section 01</p>
       <h2>Executive Summary</h2>
-      <p>This case study documents a data quality engagement conducted for a Nigerian telecommunications operator undergoing an ownership transition. As part of a six-person data quality team, I was personally responsible for profiling, cleansing, and analysing over <strong>four million subscriber records</strong> — contributing to an organisation-wide audit spanning approximately 20 million total subscribers.</p>
-      <p>The engagement identified <strong>1.8 million duplicate subscriber accounts</strong> and approximately <strong>four million inactive subscribers</strong>, revealing that the operator's true active, revenue-generating base was materially smaller than the figures on record. These findings directly informed the acquisition valuation and exposed a significant credit recovery risk arising from an undercollateralised student loan scheme launched on an incomplete data foundation.</p>
-      <p>Beyond the audit, the team designed and delivered a <strong>customer data lifecycle framework</strong>, a revised KYC onboarding standard aligned to NCC regulatory requirements, and an enterprise-wide data stewardship programme — including in-house training for operational and management staff. A 30-day post-implementation monitoring period validated framework adoption.</p>
+      <p>This case study documents a contract data quality engagement conducted for a Nigerian telecommunications operator undergoing an ownership transition in March 2025. As part of a six-person data quality team, I was personally responsible for profiling, cleansing, and analysing over <strong>four million subscriber records</strong> — contributing to an organisation-wide audit spanning approximately 21.8 million gross subscriber records.</p>
+      <p>The reported subscriber base of approximately 20 million was the post-deduplication figure on record at the point of engagement. Duplicate detection identified 1.8 million confirmed duplicate accounts within that total, meaning the gross record count including duplicates stood at approximately 21.8 million. From the 20 million post-deduplication base, approximately four million subscribers were classified as inactive under the agreed 180-day activity threshold. This methodology produced a true active, non-duplicate base of approximately <strong>14.2 million — a 29% reduction</strong> with direct and material consequences for the acquisition valuation.</p>
+      <p>The engagement also exposed a significant credit recovery risk. The operator had launched a student loan scheme with a total book value of approximately <strong>₦23.5 million naira</strong> on a subscriber base that lacked the data foundation to support debt recovery. KYC remediation work carried out during the engagement improved collection rates from 9% in the prior year to 30% — a 21 percentage point improvement attributable directly to the data quality work.</p>
+      <p>I contributed directly to the design and development of the training programme content, including the KYC implementation guidance and data stewardship awareness materials. A 30-day post-implementation monitoring period validated framework adoption and measured early improvement.</p>
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th>Figure</th></tr></thead>
+        <tbody>
+          <tr><td>Gross subscriber records (including duplicates)</td><td><strong>~21.8 million</strong></td></tr>
+          <tr><td>Confirmed duplicate accounts</td><td><strong>~1.8 million (9% of base)</strong></td></tr>
+          <tr><td>Inactive subscribers (180-day rule)</td><td><strong>~4 million (20% of post-dedup base)</strong></td></tr>
+          <tr class="highlight"><td>True active subscriber base</td><td>~14.2 million (~71% of reported)</td></tr>
+          <tr><td>CRM misclassifications</td><td>600+ enterprise accounts billed at individual rates</td></tr>
+          <tr><td>Student loan book</td><td>₦23.5 million naira</td></tr>
+          <tr><td>Collection rate improvement</td><td>9% (prior year) to 30% (post-remediation)</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- SECTION 2 -->
     <div class="case-section" id="s2">
       <p class="case-section-num">Section 02</p>
       <h2>Business Context</h2>
-      <p>The client was a mid-scale Nigerian mobile network operator with an approximate subscriber base of 20 million — the <strong>third-largest operator</strong> in one of Africa's most competitive telecoms markets. At the time of engagement, Nigeria's total mobile subscriptions stood at approximately 171.6 million.</p>
-
-      <h3>Nigerian Mobile Telecoms — Market Share (2025)</h3>
+      <p>The client was a mid-scale Nigerian mobile network operator with an approximate subscriber base of 20 million — the <strong>third-largest operator</strong> in one of Africa's most competitive telecoms markets.</p>
+      <h3>Nigerian Mobile Telecoms — Market Share (2023)</h3>
       <table class="data-table">
         <thead><tr><th>Operator</th><th>Subscribers</th><th>Market Share</th><th>Position</th></tr></thead>
         <tbody>
           <tr><td>MTN Nigeria</td><td>89.6 million</td><td><strong>52.3%</strong></td><td>1st</td></tr>
           <tr><td>Airtel Nigeria</td><td>58.0 million</td><td><strong>33.9%</strong></td><td>2nd</td></tr>
           <tr class="highlight"><td><strong>Client Operator (anonymised)</strong></td><td><strong>~20 million</strong></td><td><strong>~14%</strong></td><td><strong>3rd</strong></td></tr>
-          <tr><td>Others (T2 etc.)</td><td>~4.0 million</td><td><strong>~1.6%</strong></td><td>4th+</td></tr>
+          <tr><td>Others</td><td>~4.0 million</td><td><strong>~1.6%</strong></td><td>4th+</td></tr>
         </tbody>
       </table>
-      <p style="font-size:12px; color:var(--ink-light); margin-top:-8px; margin-bottom:20px;"><em>Source: NCC market data / BusinessDay Nigeria, August 2025. Client identity anonymised.</em></p>
-
-      <p>The operator was undergoing its <strong>second acquisition in recent years</strong>. The incoming ownership required an independent assessment of operational and data health as part of due diligence. Data governance had not been a strategic priority during the prior transition, resulting in accumulated data quality debt across core systems — with no formal data ownership structure and inconsistent KYC standards across onboarding channels.</p>
-      <div class="callout">
-        <div class="callout-bar"></div>
-        <div class="callout-body">
-          <div class="callout-label">Why this context matters</div>
-          <p class="callout-text">An M&A due diligence setting is one of the highest-stakes environments for a data quality engagement. Findings do not merely inform operational improvements — they directly influence company valuation, deal structure, and investor confidence.</p>
-        </div>
-      </div>
+      <p style="font-size:12px; color:var(--ink-light); margin-top:-8px; margin-bottom:20px;"><em>Source: NCC market data, 2023. Client identity anonymised for portfolio purposes.</em></p>
+      <p>The operator was undergoing its <strong>second acquisition in recent years</strong>. Data governance had not been a strategic priority during the prior transition, resulting in accumulated data quality debt across core systems with no formal data ownership structure and inconsistent KYC standards across onboarding channels.</p>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Why this context matters</div><p class="callout-text">An M&amp;A due diligence setting is one of the highest-stakes environments for a data quality engagement. Findings do not merely inform operational improvements — they directly influence company valuation, deal structure, and investor confidence. The work conducted in this engagement had board-level commercial consequences.</p></div></div>
     </div>
 
-    <!-- SECTION 3 -->
     <div class="case-section" id="s3">
       <p class="case-section-num">Section 03</p>
       <h2>Engagement Scope</h2>
@@ -373,23 +192,15 @@
           <tr><td><strong>Geographic Distribution</strong></td><td>Regional spread to identify operational concentration and coverage profile</td><td><em>Consistency</em></td></tr>
         </tbody>
       </table>
-      <div class="callout">
-        <div class="callout-bar"></div>
-        <div class="callout-body">
-          <div class="callout-label">Active Subscriber Definition</div>
-          <p class="callout-text">A subscriber was classified as 'active' if they had recorded any network activity — calls, data usage, or financial transaction — within the preceding 180 days. This definition was agreed as a formal business rule before any analysis began and applied consistently throughout the engagement.</p>
-        </div>
-      </div>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Active Subscriber Definition</div><p class="callout-text">A subscriber was classified as 'active' if they had recorded any network activity — calls, data usage, or financial transaction — within the preceding 180 days. This definition was agreed as a formal business rule before any analysis began and applied consistently throughout the engagement.</p></div></div>
     </div>
 
-    <!-- SECTION 4 -->
     <div class="case-section" id="s4">
       <p class="case-section-num">Section 04</p>
       <h2>Methodology</h2>
       <p>The engagement followed a structured four-phase approach: <strong>Assess → Diagnose → Remediate → Embed</strong>.</p>
       <h3>Phase 1 — Onboarding Pause &amp; Baseline Assessment (Days 1–15)</h3>
-      <p>New customer onboarding was placed on hold for the first 15 days. This significant operational decision — pausing the primary subscriber acquisition function — was justified by the scale of integrity issues identified at scoping. The pause established a clean, stable baseline without ongoing contamination from non-compliant new registrations.</p>
-      <p>Each data domain was profiled against the six standard dimensions of data quality:</p>
+      <p>New customer onboarding was placed on hold for the first 15 days. This significant operational decision — pausing the primary subscriber acquisition function — was justified by the scale of integrity issues identified at scoping. The acceptance of this recommendation by the client is itself evidence of the credibility and commercial weight of the findings.</p>
       <table class="data-table">
         <thead><tr><th>DQ Dimension</th><th>How it Manifested</th></tr></thead>
         <tbody>
@@ -402,7 +213,6 @@
         </tbody>
       </table>
       <h3>Phase 2 — Duplicate Detection &amp; Record Matching</h3>
-      <p>A multi-level matching strategy was applied to the full subscriber database using composite confidence scoring:</p>
       <ul class="case-list">
         <li><strong>Name matching —</strong> exact and fuzzy matching to capture spelling variants common in Nigerian names (e.g. 'Mohammed' vs 'Muhammad'), supplemented by phonetic algorithms.</li>
         <li><strong>Address matching —</strong> normalised and matched with partial thresholds, acknowledging that Nigerian address formats are frequently inconsistent.</li>
@@ -410,10 +220,9 @@
         <li><strong>Contact number matching —</strong> MSISDNs and secondary numbers cross-matched; shared phone numbers across accounts are a strong duplicate signal.</li>
       </ul>
       <h3>Phase 3 — KYC Audit Against NCC Standards</h3>
-      <p>KYC records were assessed against NCC subscriber registration requirements — the formal regulatory benchmark. Gaps were systematically linked to onboarding channel: field agent registrations consistently contained fewer PII fields than service centre registrations, a root cause finding rather than a symptom.</p>
+      <p>KYC records were assessed against NCC subscriber registration requirements. Gaps were systematically linked to onboarding channel: field agent registrations consistently contained fewer PII fields than service centre registrations — a root cause finding rather than a symptom.</p>
     </div>
 
-    <!-- SECTION 5 -->
     <div class="case-section" id="s5">
       <p class="case-section-num">Section 05</p>
       <h2>Key Findings</h2>
@@ -421,53 +230,34 @@
       <table class="data-table">
         <thead><tr><th>Category</th><th>Count</th><th>% of Reported Base</th></tr></thead>
         <tbody>
-          <tr><td>Total Reported Subscribers</td><td><strong>~20,000,000</strong></td><td>100%</td></tr>
-          <tr class="warning"><td>Confirmed Duplicates</td><td>~1,800,000</td><td>9.0%</td></tr>
-          <tr class="warning"><td>Inactive Subscribers (180d)</td><td>~4,000,000</td><td>20.0%</td></tr>
-          <tr class="highlight"><td>True Active Base (estimated)</td><td>~14,200,000</td><td>~71%</td></tr>
+          <tr><td>Gross records (including duplicates)</td><td><strong>~21,800,000</strong></td><td>109%</td></tr>
+          <tr><td>Confirmed duplicates</td><td><strong>~1,800,000</strong></td><td>9.0%</td></tr>
+          <tr><td>Post-deduplication base</td><td><strong>~20,000,000</strong></td><td>100%</td></tr>
+          <tr class="warning"><td>Inactive subscribers (180-day rule)</td><td>~4,000,000</td><td>20.0%</td></tr>
+          <tr class="highlight"><td>True active base (estimated)</td><td>~14,200,000</td><td>~71%</td></tr>
         </tbody>
       </table>
-      <p>The acquiring party assumed a 20 million subscriber base. The audit established the true active, non-duplicate count at approximately <strong>14.2 million — a 29% reduction</strong>. This gap had a direct and material impact on the acquisition valuation.</p>
-
+      <p>The acquiring party assumed a 20 million subscriber base. The audit established the true active, non-duplicate count at approximately <strong>14.2 million — a 29% reduction</strong> with a direct and material impact on the acquisition valuation.</p>
       <h3>5.2 KYC Compliance Gaps</h3>
       <p>Significant gaps were concentrated in field agent onboarding records, created under a 'minimum viable KYC' approach — sufficient to activate a SIM, but insufficient to meet regulatory standards or support downstream processes such as credit recovery.</p>
-
+      <div class="callout" style="background:none; border-radius:0;"><div class="callout-bar" style="background:#cc0000;"></div><div class="callout-body" style="background:#fff5f5;"><div class="callout-label" style="color:#cc0000;">Critical Finding</div><p class="callout-text">The student credit scheme had been extended to subscribers whose KYC records did not contain sufficient data to support debt recovery in the event of default. This was a direct consequence of minimum-standard onboarding — the business had extended credit without the data infrastructure to enforce repayment.</p></div></div>
       <h3>5.3 CRM Misclassification</h3>
       <p>Over <strong>600 accounts</strong> were misclassified as individual customers when they were enterprise accounts. Enterprise billing rates are materially higher; the accumulated underbilling represented meaningful revenue leakage and understated forward revenue projections for the acquiring party.</p>
-
-      <h3>5.4 The Student Credit Scheme — A Case Study Within a Case Study</h3>
-      <p>The operator had launched a student credit scheme offering short-term loans of up to <strong>₦10,000</strong> to eligible subscribers. The scheme was deployed on a subscriber base that lacked the data depth to support credit risk assessment or debt recovery. When defaults occurred, recovery proved near-impossible.</p>
-
+      <h3>5.4 The Student Credit Scheme</h3>
+      <p>The operator had launched a student credit scheme with a total loan book of approximately <strong>₦23.5 million naira</strong>. The scheme was deployed on a subscriber base that lacked the data depth to support credit risk assessment or debt recovery. KYC remediation improved collection rates from 9% in the prior year to 30% — a 21 percentage point improvement.</p>
       <div class="impact-chain">
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text bold">Minimum KYC standard at onboarding</p></div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text">Insufficient customer data captured at point of registration</p></div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text">Credit scheme launched on weak data foundation</p></div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text">Defaults occurred; recovery impossible without adequate PII</p></div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot red"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text red">Financial auditors discounted debt recoverability in valuation</p></div>
-        </div>
-        <div class="chain-step">
-          <div class="chain-line"><div class="chain-dot red"></div><div class="chain-connector"></div></div>
-          <div class="chain-content"><p class="chain-text red">Acquisition valuation reduced</p></div>
-        </div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text bold">Minimum KYC standard at onboarding</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text">Insufficient customer data captured at point of registration</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text">Credit scheme launched on weak data foundation</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text">Defaults occurred; recovery impossible without adequate PII</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text bold">KYC remediation conducted during engagement</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text bold">Collection rate improved from 9% to 30% on ₦23.5M book</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot red"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text red">Financial auditors applied recoverability discount to outstanding balance</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot red"></div></div><div class="chain-content"><p class="chain-text red">Acquisition valuation adjusted accordingly</p></div></div>
       </div>
-      <p><em>This causal chain — from data quality failure at point of onboarding to financial loss at board level — is one of the clearest illustrations of data quality risk available in practice.</em></p>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">The Broader Point</div><p class="callout-text">This causal chain — from data quality failure at point of onboarding to financial loss at board level — is one of the clearest illustrations of data quality risk available in practice.</p></div></div>
     </div>
 
-    <!-- SECTION 6 -->
     <div class="case-section" id="s6">
       <p class="case-section-num">Section 06</p>
       <h2>Root Cause Analysis</h2>
@@ -481,16 +271,9 @@
           <tr><td><strong>Governance Deprioritised</strong></td><td>Post-acquisition leadership focused on commercial metrics. Data governance was not on the strategic agenda.</td><td><em>All domains</em></td></tr>
         </tbody>
       </table>
-      <div class="callout">
-        <div class="callout-bar"></div>
-        <div class="callout-body">
-          <div class="callout-label">Key Insight</div>
-          <p class="callout-text">These root causes are systemic, not accidental. Fixing the data without addressing underlying causes would have produced a clean dataset that degraded again within 12–18 months.</p>
-        </div>
-      </div>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Key Insight</div><p class="callout-text">These root causes are systemic, not accidental. Fixing the data without addressing underlying causes would have produced a clean dataset that degraded again within 12–18 months.</p></div></div>
     </div>
 
-    <!-- SECTION 7 -->
     <div class="case-section" id="s7">
       <p class="case-section-num">Section 07</p>
       <h2>Recommendations &amp; Frameworks Delivered</h2>
@@ -508,7 +291,7 @@
         <li>Secondary contact number capture above defined usage thresholds</li>
         <li>Enterprise account identification criteria formalised in CRM workflow</li>
       </ul>
-      <h3>7.3 Data Stewardship Structure (via Collibra)</h3>
+      <h3>7.3 Data Stewardship Structure via Collibra</h3>
       <ul class="case-list">
         <li>Each data domain assigned a named business owner accountable for ongoing quality</li>
         <li>Critical data elements — including 'active subscriber' — documented in a business glossary</li>
@@ -518,15 +301,13 @@
       <p>Ongoing KPIs built into a live dashboard — duplicate rate, KYC completeness score, active/inactive ratio, CRM classification accuracy — enabling the client to track subscriber data health post-engagement.</p>
     </div>
 
-    <!-- SECTION 8 -->
     <div class="case-section" id="s8">
       <p class="case-section-num">Section 08</p>
       <h2>Implementation &amp; Monitoring</h2>
-      <p>Following framework delivery, the team remained engaged for a <strong>30-day monitoring period</strong> to validate adoption and measure early performance against the new quality KPIs. Frameworks that are designed but not monitored frequently revert to prior behaviour within weeks — this period was critical.</p>
-      <p><strong>Enterprise-wide training</strong> was delivered in Nigeria covering: NCC regulatory requirements, the current state scorecard, 90-day and 12-month forward projections, enterprise-wide data stewardship responsibilities, and KYC implementation guidance for operational staff. I contributed to programme design and content development.</p>
+      <p>Following framework delivery, the team remained engaged for a <strong>30-day monitoring period</strong> to validate adoption and measure early performance against the new quality KPIs. Frameworks that are designed but not monitored frequently revert to prior behaviour within weeks — this period was critical to ensuring the root causes had been adequately addressed.</p>
+      <p><strong>Enterprise-wide training</strong> was delivered in Nigeria covering NCC regulatory requirements, the current state scorecard, 90-day and 12-month forward projections, enterprise-wide data stewardship responsibilities, and KYC implementation guidance. I contributed directly to programme design and content development, including the KYC implementation guidance and data stewardship awareness materials.</p>
     </div>
 
-    <!-- SECTION 9 -->
     <div class="case-section" id="s9">
       <p class="case-section-num">Section 09</p>
       <h2>Business Impact</h2>
@@ -534,15 +315,15 @@
         <thead><tr><th>Impact Area</th><th>Detail</th></tr></thead>
         <tbody>
           <tr><td><strong>Acquisition Valuation</strong></td><td>True active base established at ~14.2M vs reported 20M — materially adjusting the value of the primary asset being acquired.</td></tr>
-          <tr><td><strong>Credit Risk Visibility</strong></td><td>Student scheme unrecoverable debt quantified. Financial auditors applied realistic recoverability discount, preventing the acquiring party from inheriting an overstated asset.</td></tr>
+          <tr><td><strong>Credit Risk Visibility</strong></td><td>Student scheme ₦23.5M loan book quantified. KYC remediation drove collections from 9% to 30%, providing financial auditors with a realistic recoverability picture.</td></tr>
           <tr><td><strong>Revenue Leakage</strong></td><td>600+ enterprise accounts corrected from individual billing rates. Forward billing accuracy for highest-value segment restored.</td></tr>
           <tr><td><strong>Regulatory Compliance</strong></td><td>KYC records brought into alignment with NCC standards, reducing regulatory exposure.</td></tr>
           <tr><td><strong>Governance Foundation</strong></td><td>First formal data ownership structure, business glossary, monitoring dashboard, and lifecycle framework in the operator's history.</td></tr>
+          <tr><td><strong>Operational Resilience</strong></td><td>Two-tier onboarding model preserved field agent speed while building in a compliance completion step.</td></tr>
         </tbody>
       </table>
     </div>
 
-    <!-- SECTION 10 -->
     <div class="case-section" id="s10">
       <p class="case-section-num">Section 10</p>
       <h2>Lessons Learned</h2>
@@ -558,18 +339,11 @@
         <li><strong>Earlier stakeholder alignment —</strong> tighter upfront scoping documentation would have reduced scope renegotiation mid-engagement.</li>
         <li><strong>Post-training measurement —</strong> formal KYC completion rate tracking at 30 and 90 days post-training would have provided stronger impact evidence.</li>
       </ul>
-      <div class="callout">
-        <div class="callout-bar"></div>
-        <div class="callout-body">
-          <div class="callout-label">The Broader Lesson</div>
-          <p class="callout-text">Data quality is not a technical problem. The root causes of every issue in this engagement were organisational — ownership gaps, cultural priorities, process inconsistencies, and inherited decisions. The real intervention was at the level of governance: establishing accountability, standards, and the expectation that data health is a business responsibility, not an IT afterthought.</p>
-        </div>
-      </div>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">The Broader Lesson</div><p class="callout-text">Data quality is not a technical problem. The root causes of every issue in this engagement were organisational — ownership gaps, cultural priorities, process inconsistencies, and inherited decisions. The real intervention was at the level of governance: establishing accountability, standards, and the expectation that data health is a business responsibility, not an IT afterthought.</p></div></div>
     </div>
 
   </main>
 
-  <!-- SIDEBAR -->
   <aside class="case-sidebar">
     <div class="sidebar-section">
       <p class="sidebar-title">Sections</p>
@@ -589,23 +363,20 @@
     <div class="sidebar-section">
       <p class="sidebar-title">Tools Used</p>
       <div class="sidebar-tools">
-        <span class="tool-tag">SQL</span>
-        <span class="tool-tag">Python</span>
-        <span class="tool-tag">Power BI</span>
-        <span class="tool-tag">Informatica</span>
-        <span class="tool-tag">Collibra</span>
-        <span class="tool-tag">Excel</span>
-        <span class="tool-tag">CRM</span>
+        <span class="tool-tag">SQL</span><span class="tool-tag">Python</span><span class="tool-tag">Power BI</span><span class="tool-tag">Informatica</span><span class="tool-tag">Collibra</span><span class="tool-tag">Excel</span><span class="tool-tag">CRM</span>
       </div>
     </div>
     <div class="sidebar-section">
       <p class="sidebar-title">Download</p>
-      <a href="telecoms_dq_case_study.docx" download class="download-btn">
-        📄 Full Case Study (.docx)
-      </a>
+      <a href="telecoms_dq_case_study.docx" download class="download-btn">📄 Full Case Study (.docx)</a>
     </div>
   </aside>
 </div>
+
+<footer>
+  <span class="footer-note">© 2025 — Calvin Enobor · Data Quality &amp; Governance Portfolio</span>
+  <a href="index.html" style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:0.04em;">← Back to portfolio</a>
+</footer>
 
 </body>
 </html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTCO Plc Case Study — Calvin Enobor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --green:#1a7a3f; --green-mid:#2a9d56; --green-light:#e8f5ec; --ink:#0e1a14; --ink-mid:#3a4a40; --ink-light:#6b7a70; --rule:#d4e2d8; --cream:#f7faf8; --white:#ffffff; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; }
+  a { text-decoration: none; color: inherit; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(247,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.05em; }
+  .nav-back { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink-mid); transition: color 0.2s; }
+  .nav-back:hover { color: var(--green); }
+
+  .case-hero { margin-top: 64px; background: linear-gradient(135deg, #0d4a25 0%, var(--green) 50%, #0d5a2a 100%); padding: 80px 48px 72px; position: relative; overflow: hidden; }
+  .case-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 48px 48px; }
+  .case-hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .case-hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 100px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+  .case-hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(34px, 5vw, 58px); color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .case-hero-sub { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.7); margin-bottom: 40px; max-width: 640px; }
+  .case-meta-row { display: flex; flex-wrap: wrap; gap: 28px; }
+  .case-meta-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .case-meta-value { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); }
+
+  .stats-strip { background: var(--white); border-bottom: 1px solid var(--rule); }
+  .stats-strip-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat-item { padding: 28px 24px; border-right: 1px solid var(--rule); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--green); line-height: 1; margin-bottom: 6px; }
+  .stat-lbl { font-size: 12px; color: var(--ink-light); line-height: 1.4; }
+
+  .case-layout { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 220px; gap: 64px; padding: 64px 48px; align-items: start; }
+  .case-content { min-width: 0; }
+  .case-sidebar { position: sticky; top: 88px; }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-title { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-link { font-size: 13px; color: var(--ink-mid); padding: 6px 10px; border-radius: 6px; transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; }
+  .sidebar-link:hover { background: var(--green-light); color: var(--green); border-left-color: var(--green); }
+  .sidebar-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-mid); background: var(--cream); border: 1px solid var(--rule); padding: 4px 8px; border-radius: 4px; letter-spacing: 0.03em; }
+  .download-btn { display: flex; align-items: center; gap: 8px; background: var(--green); color: white; font-size: 13px; font-weight: 600; padding: 12px 16px; border-radius: 8px; transition: background 0.2s; margin-top: 8px; }
+  .download-btn:hover { background: var(--green-mid); }
+
+  .case-section { margin-bottom: 56px; }
+  .case-section-num { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .case-section h2 { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--green-light); }
+  .case-section h3 { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin: 28px 0 12px; }
+  .case-section p { font-size: 15px; font-weight: 300; color: var(--ink-mid); margin-bottom: 16px; line-height: 1.8; }
+  .case-section p strong { font-weight: 600; color: var(--ink); }
+
+  .callout { display: flex; gap: 0; margin: 24px 0; border-radius: 8px; overflow: hidden; }
+  .callout-bar { width: 4px; background: var(--green); flex-shrink: 0; }
+  .callout-body { background: var(--green-light); padding: 18px 20px; flex: 1; }
+  .callout-label { font-size: 12px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .callout-text { font-size: 14px; font-weight: 300; color: var(--ink-mid); font-style: italic; line-height: 1.7; margin: 0; }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  .data-table th { background: var(--green); color: white; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 16px; text-align: left; }
+  .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--rule); color: var(--ink-mid); vertical-align: top; }
+  .data-table tr:nth-child(even) td { background: var(--cream); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td strong { color: var(--ink); font-weight: 600; }
+  .data-table .highlight td { background: var(--green-light); font-weight: 600; color: var(--green); }
+
+  .case-list { list-style: none; margin: 16px 0 20px; display: flex; flex-direction: column; gap: 10px; }
+  .case-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; }
+  .case-list li::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
+  .case-list li strong { font-weight: 600; color: var(--ink); }
+
+  .chain-step { display: flex; align-items: stretch; gap: 0; }
+  .chain-line { display: flex; flex-direction: column; align-items: center; width: 32px; flex-shrink: 0; }
+  .chain-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 14px; }
+  .chain-connector { width: 2px; flex: 1; background: var(--rule); margin: 0 auto; }
+  .chain-step:last-child .chain-connector { display: none; }
+  .chain-content { padding: 10px 16px 18px; flex: 1; }
+  .chain-text { font-size: 14px; color: var(--ink-mid); font-weight: 300; line-height: 1.6; }
+  .chain-text.bold { font-weight: 600; color: var(--ink); }
+  .chain-text.accent { font-weight: 600; color: var(--green); }
+
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
+
+  @media (max-width: 800px) {
+    nav { padding: 0 20px; }
+    .case-hero { padding: 60px 24px 52px; }
+    .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    .case-layout { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+    .case-sidebar { position: static; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">← DQ · Portfolio</a>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<div class="case-hero">
+  <div class="case-hero-inner">
+    <div class="case-hero-badge">📋 Portfolio Case Study · Full-Time Engagement · Nov 2022 – Jan 2025 · Named Institution</div>
+    <h1>Embedded Data Stewardship<br>at a Tier-One Nigerian Bank</h1>
+    <p class="case-hero-sub">Customer Data Integrity, Core Banking Migration, and Regulatory Compliance at Guaranty Trust Bank Plc (GTCO Plc)</p>
+    <div class="case-meta-row">
+      <div><div class="case-meta-label">Institution</div><div class="case-meta-value">Guaranty Trust Bank Plc (GTCO Plc)</div></div>
+      <div><div class="case-meta-label">Role</div><div class="case-meta-value">Data Steward II, Commercial Banking Group</div></div>
+      <div><div class="case-meta-label">Duration</div><div class="case-meta-value">November 2022 — January 2025</div></div>
+      <div><div class="case-meta-label">Scope</div><div class="case-meta-value">52 branches · 3.9M customers</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat-item"><div class="stat-num">3.9M</div><div class="stat-lbl">Regional customers governed</div></div>
+    <div class="stat-item"><div class="stat-num">₦3.8B</div><div class="stat-lbl">NPL write-offs enabled</div></div>
+    <div class="stat-item"><div class="stat-num">33%</div><div class="stat-lbl">NIN/BVN linkage in 60 days</div></div>
+    <div class="stat-item"><div class="stat-num">7,000</div><div class="stat-lbl">Accounts directly assessed</div></div>
+  </div>
+</div>
+
+<div class="case-layout">
+  <main class="case-content">
+
+    <div class="case-section" id="s1">
+      <p class="case-section-num">Section 01</p>
+      <h2>Executive Summary</h2>
+      <p>This case study documents 26 months of embedded data stewardship at Guaranty Trust Bank Plc (GTCO Plc), one of Nigeria's foremost tier-one commercial banks, listed on both the Nigerian Exchange Group and the London Stock Exchange. As Data Steward II within the Commercial Banking Group, I was responsible for the data quality, integrity, governance, and regulatory compliance of customer data across a regional portfolio spanning <strong>52 branches and approximately 3.9 million customers</strong>.</p>
+      <p>The role covered two distinct but interconnected workstreams. The first was ongoing stewardship: maintaining a single source of truth across marketing and commercial data domains through the Business Objects reporting platform, managing PII access governance, and ensuring regulatory compliance with CBN, NDPC, and AML requirements daily. The second was a major programme contribution: the bank's migration from its legacy core banking system, Basis, to the <strong>Infosys Finacle platform</strong> — a 90-day, three-batch cutover.</p>
+      <p>Across the migration workstream, I assessed <strong>7,000 customer accounts for CIF consolidation</strong>, of which 2,000+ required full re-profiling. These contributed to the consolidation of over 100,000 duplicate accounts into single Customer Information Files across the regional portfolio. A critical gap was identified: <strong>63% of corporate accounts</strong> in scope had been captured under the legacy system by CAC registration number alone, without the identity validation data required by Finacle.</p>
+      <p>The NIN and BVN linkage programme produced a step-change result: coverage increased from <strong>9% over 12 months to 33% within 60 days</strong>. During the migration classification work, a portfolio of non-performing loan balances stale for over ten years was identified with a combined book value of approximately <strong>₦4.2 billion naira</strong>. The executive team proceeded with write-offs of ₦3.8 billion, directly supported by the stewardship function's classification and documentation work.</p>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Core Proposition</div><p class="callout-text">This engagement demonstrates what embedded data stewardship looks like in practice inside a regulated financial institution — not as a one-off intervention, but as a sustained discipline that makes high-stakes programmes like core banking migrations possible.</p></div></div>
+    </div>
+
+    <div class="case-section" id="s2">
+      <p class="case-section-num">Section 02</p>
+      <h2>About the Institution &amp; Market Context</h2>
+      <p>Guaranty Trust Bank Plc, operating under the holding company GTCO Plc, is one of Nigeria's most recognised tier-one commercial banks. Founded in 1990 and headquartered in Lagos, GTCO Plc is listed on both the Nigerian Exchange Group (NGX) and the London Stock Exchange (LSE) — making it one of a small number of African financial institutions with a dual listing and direct exposure to UK regulatory expectations.</p>
+      <p>The regional desk to which I was assigned covered 52 branches, with a total customer base of approximately 3.9 million across retail and commercial segments. My stewardship remit covered the marketing and commercial banking data domains, encompassing customer onboarding records, KYC data, product holdings, consent flags, and loan and overdraft account data.</p>
+      <h3>UK Regulatory Equivalence</h3>
+      <table class="data-table">
+        <thead><tr><th>Area</th><th>Nigerian Framework</th><th>UK Equivalent</th></tr></thead>
+        <tbody>
+          <tr><td>Banking Regulation</td><td>CBN</td><td>FCA / PRA</td></tr>
+          <tr><td>Data Protection</td><td>NDPA 2023 / NDPC</td><td>UK GDPR / ICO / DPA 2018</td></tr>
+          <tr><td>AML Compliance</td><td>CBN AML Guidelines</td><td>FCA AML / MLR 2017</td></tr>
+          <tr><td>Identity Verification</td><td>NIN / BVN</td><td>National Insurance / Passport</td></tr>
+          <tr><td>Business Registry</td><td>CAC</td><td>Companies House</td></tr>
+          <tr><td>Deposit Protection</td><td>NDIC</td><td>FSCS</td></tr>
+          <tr><td>Marketing Consent</td><td>NDPC / NDPA</td><td>PECR</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="case-section" id="s3">
+      <p class="case-section-num">Section 03</p>
+      <h2>Background &amp; Role Context</h2>
+      <p>Prior to joining Guaranty Trust Bank, I worked as a Data Analyst — building the technical foundation in SQL, data profiling, and reporting that underpinned the governance work. My entry into GTCO was not directly into a data function. I joined as a <strong>Commercial Banking Officer</strong>, a client-facing role in which I worked directly with corporate and commercial customers, supported relationship managers, and developed a working understanding of banking products, credit facilities, overdraft structures, and the commercial customer lifecycle.</p>
+      <p>This year in commercial banking was not incidental to my later data work. It was the foundation of it. When I later had to classify loan portfolios, assess corporate account completeness, or escalate ambiguous CIF consolidations to account managers, I was not operating as an outsider interpreting business data. I was a practitioner who understood what that data represented in commercial reality.</p>
+      <h3>The Move Into Data Stewardship</h3>
+      <p>After a year in commercial banking, I moved into the role of Data Steward II through an internal process. The transition was natural: I had already demonstrated the business context and analytical background the role required, and I had actively sought the opportunity when it became available. The role sat within a governance structure reporting to a <strong>Senior Enterprise Data Architect</strong> and Compliance supervisors — held to architectural standards on one side and regulatory standards on the other.</p>
+    </div>
+
+    <div class="case-section" id="s4">
+      <p class="case-section-num">Section 04</p>
+      <h2>The Day-to-Day Stewardship Role</h2>
+      <p>One of the distinctions between project-based data quality work and embedded stewardship is that the latter has no finish line. The daily and weekly routines described here reflect the steady-state operating model that ran before, alongside, and after the migration programme. During the 90-day migration period, profiling, classification, and validation took priority — but the governance baseline described here remained the foundation throughout.</p>
+      <h3>Morning Data Quality Reviews</h3>
+      <p>Each working day began with a review of the Data Quality dashboard — a branch-level monitoring system updated on a five-day cycle. The review covered automated alerts, anomalies in records used for daily liquidity reporting, and datasets that needed to be clean and locked before feeding downstream processes. A <strong>minimum of four data quality anomalies</strong> were identified and resolved per week through this process.</p>
+      <h3>Golden Source Enforcement</h3>
+      <p>I was responsible for ensuring that the <strong>Business Objects reporting platform</strong> functioned as the primary and exclusive source of truth for all marketing and commercial data consumption. This required active enforcement: directing all data requests through the BO platform, monitoring for unofficial extracts, and working with data engineers to incorporate new data requirements into the platform rather than through workarounds. The BO platform sat on top of the SQL database, with Power BI used for dashboard visualisation and stakeholder reporting.</p>
+      <h3>PII Access Governance</h3>
+      <p>Managing access to Personally Identifiable Information was a daily operational responsibility. Under the NDPA 2023, access to customer PII must be proportionate, purposeful, and documented. Access controls determined which users could see which data and at what level of granularity, ensuring sensitive customer information reached only those with a legitimate business need and the appropriate authorisation.</p>
+      <h3>Data Lineage and Catalogue</h3>
+      <p><strong>Seven datasets</strong> were formally tagged and documented within the data catalogue during the tenure, covering the core customer, account, and product data assets. Each dataset was documented with its source, lineage, update frequency, access permissions, and business definition.</p>
+    </div>
+
+    <div class="case-section" id="s5">
+      <p class="case-section-num">Section 05</p>
+      <h2>The Basis-to-Finacle Core Banking Migration</h2>
+      <p>The most significant programme contribution of the tenure was the bank's migration from its legacy core banking platform, Basis, to the Infosys Finacle system. The migration was structured as a 90-day programme executed in three batches. My contribution covered the marketing and commercial banking data domains, with direct responsibility for assessing 7,000 customer accounts for CIF consolidation and migration readiness.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Workstream</th><th>Batches</th><th>Key Output</th></tr></thead>
+        <tbody>
+          <tr><td>Data profiling and health assessment</td><td>All three batches</td><td>7,000 accounts assessed; 2,000+ re-profiled</td></tr>
+          <tr><td>Customer classification</td><td>Batches 1 and 2</td><td>Retail, corporate, EDD accounts classified</td></tr>
+          <tr><td>CIF consolidation</td><td>Batches 1 and 2</td><td>100,000+ accounts merged regionally</td></tr>
+          <tr><td>Data remediation</td><td>All three batches</td><td>Tax IDs, OD classification, documentation</td></tr>
+          <tr><td>Consent programme oversight</td><td>Batches 2 and 3</td><td>90%+ opt-in across 52 branches</td></tr>
+          <tr><td>Cutover and validation</td><td>Batch 3</td><td>Reconciliation and go-live sanity checks</td></tr>
+        </tbody>
+      </table>
+
+      <h3>5.1 Pre-Migration Data Health Assessment</h3>
+      <p>Of the 7,000 accounts assessed, 2,000+ required full re-profiling across four dimensions: completeness, accuracy, validity, and documentation completeness. A significant structural finding emerged: <strong>63% of corporate accounts in scope</strong> had been captured under Basis using only their CAC registration number, without associated identity validation data — director IDs, ID validity dates, or supporting documentation required by Finacle as a mandatory field.</p>
+      <table class="data-table">
+        <thead><tr><th>Dimension</th><th>Retail</th><th>Corporate</th><th>Expatriate / Foreign</th></tr></thead>
+        <tbody>
+          <tr><td>Completeness</td><td>Full PII fields</td><td>CAC plus ID docs</td><td>EDD documents</td></tr>
+          <tr><td>Accuracy</td><td>Name, address, DOB</td><td>Entity classification</td><td>Nationality, residency</td></tr>
+          <tr><td>Validity</td><td>BVN / NIN linked</td><td>CAC active, ID valid</td><td>Passport, permit valid</td></tr>
+          <tr><td>Documentation</td><td>Standard KYC pack</td><td>Board resolution, cert.</td><td>Enhanced KYC pack</td></tr>
+        </tbody>
+      </table>
+
+      <h3>5.2 The CIF Consolidation</h3>
+      <p>Across the regional portfolio, over 100,000 accounts were identified as duplicates requiring consolidation under single Customer Information Files. My direct contribution covered 7,000 of those accounts. Where records were ambiguous, they were escalated to the account manager for clarification. Records that could not be resolved were flagged and reported to the AML and compliance desk. In a regulated environment, an incorrect consolidation is a potential compliance failure, not a minor data error.</p>
+
+      <h3>5.3 Data Remediation</h3>
+      <p>Tax ID records were reviewed and updated across the portfolio. Overdraft and loan accounts were classified using a predefined rule set covering six dimensions: origination date, facility type, product category, lifecycle stage, condition, and performance status. The predefined rule set was the quality control mechanism — ensuring consistent outputs across a complex, distributed portfolio where judgement alone would have introduced variation.</p>
+
+      <h3>5.4 Marketing Consent Management</h3>
+      <p>The consent programme was coordinated across all 52 branches, with account officers responsible for direct customer contact. The stewardship function's role was <strong>oversight and data governance rather than direct delivery</strong>: tracking opt-in rates at branch level, maintaining the data infrastructure recording consent flags accurately, ensuring the default treatment for non-respondents was correctly implemented, and reporting progress to the governance team. The programme achieved over 90% opt-in compliance.</p>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Data Integrity Point</div><p class="callout-text">Every consent decision — whether explicit or default — was accurately recorded, auditable, and aligned with NDPA requirements. In a 52-branch regional portfolio, the integrity of that data record was as important as the compliance rate itself.</p></div></div>
+    </div>
+
+    <div class="case-section" id="s6">
+      <p class="case-section-num">Section 06</p>
+      <h2>The Non-Performing Loan Portfolio</h2>
+      <p>The loan and overdraft classification work described in Section 5 was designed to prepare facilities data for migration. What it also did — as a direct by-product of the structured profiling exercise — was surface a subset of accounts that had no place in a clean core banking environment. During the process of batching facilities, a portfolio of non-performing loan balances emerged with a combined book value of approximately <strong>₦4.2 billion naira</strong> — stale for over ten years, with no recovery activity on record.</p>
+      <p>These loan balances had accumulated, unresolved, across more than a decade, carried on the books through prior ownership transitions and a previous system migration without being identified or addressed. The migration profiling exercise, by forcing every facility through a structured classification process for the first time, made them visible.</p>
+
+      <h3>The CBN Recapitalisation Context</h3>
+      <p>The timing was commercially significant. The CBN's recapitalisation directive was active, requiring Nigerian banks to meet revised minimum capital thresholds. The executive team proceeded with write-offs totalling <strong>₦3.8 billion naira</strong> — the portion assessed as having no realistic recovery value. The remaining ₦400 million was retained with active recovery measures attached.</p>
+
+      <div style="margin: 24px 0;">
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text bold">Loan portfolio profiled during migration prep — first structured classification in over a decade</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text bold">₦4.2B NPL portfolio identified — non-performing, no recovery activity, 10+ years stale</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text">Portfolio classified, documented, and surfaced to executive level</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div><div class="chain-connector"></div></div><div class="chain-content"><p class="chain-text">CBN recapitalisation directive active — accurate balance sheet management a strategic imperative</p></div></div>
+        <div class="chain-step"><div class="chain-line"><div class="chain-dot"></div></div><div class="chain-content"><p class="chain-text accent">₦3.8B written off at executive level · ₦400M retained with active recovery measures</p></div></div>
+      </div>
+
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Why This Matters</div><p class="callout-text">A steward working through a routine migration classification exercise identified a portfolio with direct balance sheet implications, surfaced it through the correct governance channel, and provided the evidence base for an executive decision that supported the bank's capital position during a period of regulatory scrutiny. That is what embedded stewardship looks like when it is functioning correctly.</p></div></div>
+    </div>
+
+    <div class="case-section" id="s7">
+      <p class="case-section-num">Section 07</p>
+      <h2>The Regulatory Dimension</h2>
+      <p>At GTCO Plc, the compliance thread ran through every aspect of the stewardship role. The NIN-BVN linkage programme produced a step-change result: starting coverage was 9% after 12 months of previous effort. Within <strong>60 days, linkage coverage reached 33%</strong> — an improvement achieved through a structured, systematic approach to identifying and resolving gaps across the regional portfolio.</p>
+      <p>The NDPA 2023 introduced binding requirements around consent management, data minimisation, and PII access governance that directly shaped both the consent programme and the BO access control architecture. AML obligations governed by CBN guidelines required Enhanced Due Diligence flagging for foreign national and expatriate accounts, and escalation of ambiguous CIF consolidation cases to the compliance desk. Data stewardship enables AML compliance. It does not replace it.</p>
+      <table class="data-table">
+        <thead><tr><th>Area</th><th>Nigerian Framework</th><th>UK Equivalent</th></tr></thead>
+        <tbody>
+          <tr><td>Banking Regulation</td><td>CBN</td><td>FCA and PRA</td></tr>
+          <tr><td>Data Protection</td><td>NDPA 2023 / NDPC</td><td>UK GDPR / ICO / DPA 2018</td></tr>
+          <tr><td>AML Compliance</td><td>CBN AML Guidelines</td><td>FCA AML / MLR 2017</td></tr>
+          <tr><td>Identity Verification</td><td>NIN / BVN</td><td>National Insurance / KYC docs</td></tr>
+          <tr><td>Business Registry</td><td>CAC</td><td>Companies House</td></tr>
+          <tr><td>Marketing Consent</td><td>NDPC / NDPA</td><td>PECR</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Transferability</div><p class="callout-text">The practical demands of working within a CBN and NDPC-regulated environment — audit readiness, documentation standards, proportionate access governance, and daily compliance discipline — are directly transferable to any UK financial institution operating under FCA and PRA oversight.</p></div></div>
+    </div>
+
+    <div class="case-section" id="s8">
+      <p class="case-section-num">Section 08</p>
+      <h2>Key Outcomes &amp; Business Impact</h2>
+      <table class="data-table">
+        <thead><tr><th>Impact Area</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Migration delivery</strong></td><td>7,000 accounts assessed; 2,000+ fully re-profiled and migrated across three batch cutovers within the 90-day programme</td></tr>
+          <tr><td><strong>CIF consolidation</strong></td><td>Personal contribution of 7,000 accounts to the regional consolidation of 100,000+ duplicates into single Customer Information Files</td></tr>
+          <tr><td><strong>Corporate identity gap</strong></td><td>63% of corporate accounts in scope identified with missing identity validation data; remediated before go-live</td></tr>
+          <tr><td><strong>NIN/BVN linkage</strong></td><td>Coverage increased from 9% over 12 months to 33% within 60 days</td></tr>
+          <tr><td><strong>Consent programme</strong></td><td>90%+ opt-in compliance achieved across 52 branches; stewardship function provided oversight, tracking, and data governance</td></tr>
+          <tr><td><strong>Balance sheet integrity</strong></td><td>₦4.2B NPL portfolio identified; ₦3.8B written off at executive level during CBN recapitalisation period</td></tr>
+          <tr><td><strong>Golden source integrity</strong></td><td>BO platform enforced as exclusive source of truth; minimum 4 anomalies identified and resolved per week across 52 branches</td></tr>
+          <tr><td><strong>Data catalogue</strong></td><td>7 datasets formally tagged, documented, and governed across marketing and commercial banking domains</td></tr>
+        </tbody>
+      </table>
+      <p>The NIN/BVN improvement — from 9% linkage over 12 months to 33% within 60 days — represents a structural improvement in the compliance and data quality baseline, not a one-off cleanse. The ₦3.8 billion write-off outcome is the clearest illustration of the commercial consequence of embedded stewardship: the data stewardship function did not make the decision, but it made the decision possible.</p>
+    </div>
+
+    <div class="case-section" id="s9">
+      <p class="case-section-num">Section 09</p>
+      <h2>Lessons Learned &amp; Reflections</h2>
+      <p>A case study that only records successes is a marketing document, not a professional one. The reflections below are genuine.</p>
+      <h3>What Worked Well</h3>
+      <ul class="case-list">
+        <li><strong>The commercial banking background —</strong> walking into conversations with relationship managers with direct experience of their work made the governance work credible to the people it depended on.</li>
+        <li><strong>The predefined rule set for loan classification —</strong> consistency at scale requires rules, not judgement. The quality of the migration output was directly dependent on the quality of the rules that governed it.</li>
+        <li><strong>The escalation discipline —</strong> escalating ambiguous CIF consolidations first to account managers, then to the AML desk where needed, produced clean outcomes and maintained compliance integrity.</li>
+        <li><strong>The default treatment design —</strong> applying the most privacy-preserving compliant default for non-consenting customers resolved a potential compliance gap before it became one.</li>
+      </ul>
+      <h3>What Could Be Strengthened</h3>
+      <ul class="case-list">
+        <li><strong>Post-migration monitoring —</strong> a deliberately designed monitoring period with defined KPIs tracked against the pre-migration baseline would have provided stronger evidence of whether the remediation work held in the new system over time.</li>
+        <li><strong>Earlier engagement with account managers —</strong> many ambiguous CIF cases could have been pre-empted by accessing their institutional knowledge earlier in the process.</li>
+        <li><strong>Post-programme measurement —</strong> formal assessment of branch officer understanding of the consent requirement would have provided stronger evidence of the programme's long-term sustainability.</li>
+      </ul>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">The Broader Lesson</div><p class="callout-text">Twenty-six months of embedded stewardship at a tier-one bank taught me that the value of good data governance is not visible in a single deliverable. It accumulates quietly, over time, in the quality of decisions made on clean data, in the compliance gaps that never become incidents, and in the migration programmes that go smoothly because the data foundation was solid going in. Data stewardship is fundamentally a people discipline. The technical tools are the instruments. The work that actually moves the needle is the conversation — with the relationship manager, the branch officer, the compliance supervisor. The steward's job is to bridge those gaps. That bridging function is what I brought to GTCO, and it is what I carry forward.</p></div></div>
+    </div>
+
+  </main>
+
+  <aside class="case-sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-title">Sections</p>
+      <div class="sidebar-links">
+        <a href="#s1" class="sidebar-link">01 · Executive Summary</a>
+        <a href="#s2" class="sidebar-link">02 · About the Institution</a>
+        <a href="#s3" class="sidebar-link">03 · Background &amp; Role</a>
+        <a href="#s4" class="sidebar-link">04 · Day-to-Day Stewardship</a>
+        <a href="#s5" class="sidebar-link">05 · The Migration</a>
+        <a href="#s6" class="sidebar-link">06 · NPL Portfolio</a>
+        <a href="#s7" class="sidebar-link">07 · Regulatory Dimension</a>
+        <a href="#s8" class="sidebar-link">08 · Key Outcomes</a>
+        <a href="#s9" class="sidebar-link">09 · Lessons Learned</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Tools Used</p>
+      <div class="sidebar-tools">
+        <span class="tool-tag">SQL</span><span class="tool-tag">Power BI</span><span class="tool-tag">Business Objects</span><span class="tool-tag">Finacle</span><span class="tool-tag">Excel</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Download</p>
+      <a href="gtco_case_study.docx" download class="download-btn">📄 Full Case Study (.docx)</a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span class="footer-note">© 2025 — Calvin Enobor · Data Quality &amp; Governance Portfolio</span>
+  <a href="index.html" style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:0.04em;">← Back to portfolio</a>
+</footer>
+
+</body>
+</html>
