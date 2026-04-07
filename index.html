@@ -4,150 +4,287 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calvin Enobor — Data Quality & Governance Specialist</title>
-<meta name="description" content="Calvin Enobor — Data Quality and Governance Specialist. Portfolio of real engagements across telecoms and financial services, plus concept projects in energy, sports, and metadata management.">
+<meta name="description" content="Calvin Enobor — Data Quality and Governance Specialist. Portfolio of real engagements across financial services and telecoms.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --green: #1a7a3f; --green-mid: #2a9d56; --green-light: #e8f5ec;
-    --green-glow: rgba(26,122,63,0.12);
-    --ink: #0e1a14; --ink-mid: #3a4a40; --ink-light: #6b7a70;
-    --rule: #d4e2d8; --cream: #f7faf8; --white: #ffffff;
+    --green:       #1a7a3f;
+    --green-mid:   #2a9d56;
+    --green-light: #e8f5ec;
+    --green-glow:  rgba(26,122,63,0.12);
+    --ink:         #0e1a14;
+    --ink-mid:     #3a4a40;
+    --ink-light:   #6b7a70;
+    --rule:        #d4e2d8;
+    --cream:       #f7faf8;
+    --white:       #ffffff;
     --card-shadow: 0 2px 24px rgba(14,26,20,0.07);
-    --card-hover: 0 8px 40px rgba(14,26,20,0.13);
+    --card-hover:  0 8px 40px rgba(14,26,20,0.13);
+    --amber:       #92600a;
+    --amber-light: #fef9ec;
   }
   html { scroll-behavior: smooth; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.65; overflow-x: hidden; }
-  a { text-decoration: none; color: inherit; }
+  a { text-decoration: none; color: var(--green); }
 
   /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(247,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(247,250,248,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
   .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--green); letter-spacing: 0.05em; text-transform: uppercase; }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-mid); transition: color 0.2s; }
   .nav-links a:hover { color: var(--green); }
 
   /* HERO */
-  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 120px 48px 80px; gap: 64px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(26,122,63,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26,122,63,0.04) 0%, transparent 60%); pointer-events: none; }
-  .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.4; pointer-events: none; }
+  .hero {
+    min-height: 100vh; padding-top: 64px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 120px 48px 80px;
+    gap: 64px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 40%, rgba(26,122,63,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26,122,63,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 60px 60px; opacity: 0.4; pointer-events: none;
+  }
   .hero-left { position: relative; z-index: 1; }
-  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.12em; background: var(--green-light); border: 1px solid rgba(26,122,63,0.2); padding: 6px 14px; border-radius: 100px; margin-bottom: 28px; }
-  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(42px, 5vw, 68px); line-height: 1.08; color: var(--ink); margin-bottom: 28px; letter-spacing: -0.02em; }
-  .hero h1 em { font-style: italic; color: var(--green); }
-  .hero-sub { font-size: 17px; font-weight: 300; color: var(--ink-mid); max-width: 480px; margin-bottom: 40px; line-height: 1.75; }
-  .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 44px; }
-  .tag { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--ink-mid); background: var(--white); border: 1px solid var(--rule); padding: 6px 14px; border-radius: 6px; letter-spacing: 0.04em; }
-  .hero-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--green); color: var(--white); font-size: 14px; font-weight: 600; padding: 14px 28px; border-radius: 8px; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(26,122,63,0.25); }
-  .hero-cta:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,122,63,0.3); }
-  .hero-right { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 16px; }
-  .stat-card { background: var(--white); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 20px; box-shadow: var(--card-shadow); animation: slideIn 0.6s ease both; }
-  .stat-card:nth-child(1) { animation-delay: 0.1s; }
-  .stat-card:nth-child(2) { animation-delay: 0.2s; }
-  .stat-card:nth-child(3) { animation-delay: 0.3s; }
-  .stat-card:nth-child(4) { animation-delay: 0.4s; }
-  @keyframes slideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
-  .stat-icon { width: 44px; height: 44px; background: var(--green-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px; }
+  .hero-available {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+    color: var(--green); text-transform: uppercase; letter-spacing: 0.12em;
+    background: var(--green-light); border: 1px solid rgba(26,122,63,0.2);
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+  }
+  .hero-available::before {
+    content: ''; width: 6px; height: 6px; background: var(--green);
+    border-radius: 50%; animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 5vw, 64px); line-height: 1.08;
+    color: var(--ink); margin-bottom: 10px; letter-spacing: -0.02em;
+  }
+  .hero-roles { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; }
+  .hero-role-tag {
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+    color: var(--ink-mid); background: var(--white);
+    border: 1px solid var(--rule); padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;
+  }
+  .hero-tagline { font-size: 16px; font-weight: 300; color: var(--ink-mid); max-width: 500px; margin-bottom: 32px; line-height: 1.8; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: var(--white);
+    font-size: 14px; font-weight: 600; padding: 13px 26px;
+    border-radius: 8px; transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 16px rgba(26,122,63,0.25);
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--ink-mid);
+    font-size: 14px; font-weight: 500; padding: 12px 22px;
+    border-radius: 8px; border: 1px solid var(--rule);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+  .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stat-card {
+    background: var(--white); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 20px 24px; display: flex; align-items: center; gap: 16px;
+    box-shadow: var(--card-shadow);
+  }
+  .stat-icon { width: 44px; height: 44px; background: var(--green-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
   .stat-value { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--green); line-height: 1; }
-  .stat-label { font-size: 13px; color: var(--ink-light); margin-top: 2px; }
+  .stat-label { font-size: 12px; color: var(--ink-light); margin-top: 2px; line-height: 1.4; }
 
   /* SECTIONS */
-  section { padding: 100px 48px; }
-  .section-header { margin-bottom: 56px; }
-  .section-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
-  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 48px); line-height: 1.12; color: var(--ink); letter-spacing: -0.02em; }
+  section { padding: 96px 48px; }
+  .section-inner { max-width: 980px; margin: 0 auto; }
+  .section-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.12; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 32px; }
   .section-title em { font-style: italic; color: var(--green); }
 
-  /* ABOUT */
-  #about { background: var(--white); }
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .about-text p { font-size: 16px; font-weight: 300; color: var(--ink-mid); margin-bottom: 20px; line-height: 1.75; }
-  .about-text p strong { font-weight: 600; color: var(--ink); }
-  .skills-grid { display: flex; flex-direction: column; gap: 16px; }
-  .skill-row { display: flex; align-items: center; gap: 16px; }
-  .skill-name { font-size: 13px; font-weight: 500; color: var(--ink-mid); width: 200px; flex-shrink: 0; }
-  .skill-bar-bg { flex: 1; height: 6px; background: var(--rule); border-radius: 100px; overflow: hidden; }
-  .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid)); border-radius: 100px; transform-origin: left; animation: fillBar 1.2s ease both; }
-  @keyframes fillBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-  /* NARRATIVE BOX */
-  .narrative { background: var(--green-light); border-left: 4px solid var(--green); padding: 24px 28px; border-radius: 0 8px 8px 0; margin: 32px 0; }
-  .narrative p { font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.8; }
-  .narrative p + p { margin-top: 12px; }
-
-  /* BADGE LEGEND */
-  .badge-legend { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; padding: 16px 20px; background: var(--white); border: 1px solid var(--rule); border-radius: 10px; }
-  .badge-legend-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 8px; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mid); }
-  .legend-pip { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase; }
-  .legend-pip.green { color: #1a7a3f; background: #e8f5ec; border: 1px solid rgba(26,122,63,0.2); }
-  .legend-pip.amber { color: #92600a; background: #fef9ec; border: 1px solid rgba(180,130,0,0.25); }
-
-  /* PROJECTS */
-  #projects { background: var(--cream); }
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; }
-  .project-card { background: var(--white); border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; box-shadow: var(--card-shadow); transition: transform 0.25s, box-shadow 0.25s; display: flex; flex-direction: column; }
-  .project-card:hover { transform: translateY(-4px); box-shadow: var(--card-hover); }
-  .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
-  .project-card-banner { background: linear-gradient(135deg, var(--green) 0%, #0d5a2a 100%); padding: 40px 36px; position: relative; overflow: hidden; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
-  .project-card-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 10% 80%, rgba(255,255,255,0.05) 0%, transparent 40%); }
-  .project-card-banner::after { content: attr(data-number); position: absolute; bottom: -20px; right: -8px; font-family: 'DM Serif Display', serif; font-size: 120px; color: rgba(255,255,255,0.06); line-height: 1; pointer-events: none; }
-  .project-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 5px 12px; border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase; width: fit-content; }
-  .project-badge.engagement { color: #d4f5e2; background: rgba(26,122,63,0.35); border: 1px solid rgba(100,220,140,0.35); }
-  .project-badge.concept { color: #fef3c7; background: rgba(180,130,0,0.3); border: 1px solid rgba(250,200,50,0.35); }
-  .project-badge.coming-soon { color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-  .project-card-banner h3 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--white); line-height: 1.2; letter-spacing: -0.01em; position: relative; z-index: 1; }
-  .project-card-body { padding: 32px 36px; display: flex; flex-direction: column; gap: 20px; flex: 1; }
-  .project-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-  .meta-chip { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--green); background: var(--green-light); border: 1px solid rgba(26,122,63,0.15); padding: 4px 10px; border-radius: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
-  .project-desc { font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; flex: 1; }
-  .project-findings { display: flex; flex-direction: column; gap: 10px; }
-  .finding-row { display: flex; align-items: center; gap: 12px; }
-  .finding-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
-  .finding-text { font-size: 13px; color: var(--ink-mid); }
-  .finding-text strong { font-weight: 600; color: var(--ink); }
-  .project-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--green); padding: 12px 20px; background: var(--green-light); border: 1px solid rgba(26,122,63,0.2); border-radius: 8px; transition: all 0.2s; width: fit-content; margin-top: auto; }
-  .project-cta:hover { background: var(--green); color: var(--white); border-color: var(--green); }
-  .project-card.placeholder { opacity: 0.55; pointer-events: none; }
-  .project-card.placeholder .project-card-banner { background: linear-gradient(135deg, #4a6654 0%, #2e4038 100%); }
+  /* SKILLS */
+  .skills-section { background: var(--white); }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .skills-group-title { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+  .tech-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tech-chip {
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+    color: var(--ink-mid); background: var(--cream); border: 1px solid var(--rule);
+    padding: 8px 14px; border-radius: 6px; display: flex; align-items: center; gap: 7px;
+    letter-spacing: 0.03em; transition: border-color 0.2s, color 0.2s;
+  }
+  .tech-chip:hover { border-color: var(--green); color: var(--green); }
+  .tech-chip svg { opacity: 0.6; }
+  .competency-list { list-style: none; padding: 0; }
+  .competency-list li { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--ink-mid); display: flex; align-items: center; gap: 10px; }
+  .competency-list li:last-child { border-bottom: none; }
+  .competency-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
 
   /* TOOLS */
-  #tools { background: var(--white); }
-  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-  .tool-item { background: var(--cream); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; text-align: center; transition: border-color 0.2s, transform 0.2s; }
-  .tool-item:hover { border-color: var(--green); transform: translateY(-2px); }
-  .tool-item-icon { font-size: 28px; margin-bottom: 8px; }
-  .tool-item-name { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.04em; }
-  .tool-item-type { font-size: 11px; color: var(--ink-light); margin-top: 4px; }
+  .tools-section { background: var(--cream); }
+  .tools-grid { display: flex; flex-wrap: wrap; gap: 14px; }
+  .tool-chip {
+    background: var(--white); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 20px; font-size: 14px; color: var(--ink-mid); font-weight: 500;
+    box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 10px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tool-chip:hover { border-color: var(--green); transform: translateY(-2px); }
+  .tool-chip svg { flex-shrink: 0; }
+
+  /* EXPERIENCE */
+  .experience-section { background: var(--white); }
+  .exp-item {
+    background: var(--cream); border: 1px solid var(--rule); border-radius: 14px;
+    padding: 30px 34px; margin-bottom: 20px; box-shadow: var(--card-shadow);
+  }
+  .exp-item:last-child { margin-bottom: 0; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 4px; }
+  .exp-title { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .exp-badge { display: inline-block; padding: 3px 12px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+  .exp-badge-ft { background: var(--green-light); color: var(--green); border: 1px solid rgba(26,122,63,0.2); }
+  .exp-badge-ct { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(146,96,10,0.2); }
+  .exp-org { font-size: 14px; font-weight: 500; color: var(--ink-mid); margin-bottom: 2px; }
+  .exp-meta { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-light); margin-bottom: 18px; letter-spacing: 0.03em; }
+  .exp-bullets { list-style: none; padding: 0; }
+  .exp-bullets li { font-size: 14px; color: var(--ink-mid); line-height: 1.75; padding: 5px 0 5px 18px; position: relative; border-bottom: 1px solid var(--rule); font-weight: 300; }
+  .exp-bullets li:last-child { border-bottom: none; }
+  .exp-bullets li::before { content: ''; position: absolute; left: 0; top: 14px; width: 5px; height: 5px; background: var(--green); border-radius: 50%; }
+
+  /* PORTFOLIO */
+  .portfolio-section { background: var(--cream); }
+  .portfolio-intro { font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.85; max-width: 720px; margin-bottom: 32px; }
+  .portfolio-intro p + p { margin-top: 12px; }
+  .badge-legend {
+    display: flex; gap: 28px; flex-wrap: wrap; align-items: center;
+    padding: 16px 20px; background: var(--white);
+    border: 1px solid var(--rule); border-radius: 10px; margin-bottom: 28px;
+  }
+  .badge-legend-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.08em; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mid); }
+  .legend-pip { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .legend-pip.green { color: var(--green); background: var(--green-light); border: 1px solid rgba(26,122,63,0.2); }
+  .legend-pip.amber { color: var(--amber); background: var(--amber-light); border: 1px solid rgba(146,96,10,0.2); }
+  .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .project-card {
+    background: var(--white); border: 1px solid var(--rule); border-radius: 16px;
+    overflow: hidden; box-shadow: var(--card-shadow);
+    transition: transform 0.25s, box-shadow 0.25s; display: flex; flex-direction: column;
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: var(--card-hover); }
+  .project-card.featured { border-top: 3px solid var(--green); }
+  .card-banner {
+    background: linear-gradient(135deg, #0d4a25 0%, var(--green) 50%, #0d5a2a 100%);
+    padding: 28px 28px 24px; position: relative; overflow: hidden;
+  }
+  .card-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+  }
+  .card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .card-industry { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; text-transform: uppercase; }
+  .card-badge { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .card-badge.engagement { color: #d4f5e2; background: rgba(26,122,63,0.35); border: 1px solid rgba(100,220,140,0.35); }
+  .card-badge.concept { color: #fef3c7; background: rgba(180,130,0,0.3); border: 1px solid rgba(250,200,50,0.35); }
+  .card-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); line-height: 1.25; letter-spacing: -0.01em; position: relative; z-index: 1; }
+  .card-body { padding: 24px 28px; display: flex; flex-direction: column; flex: 1; gap: 14px; }
+  .card-desc { font-size: 14px; font-weight: 300; color: var(--ink-mid); line-height: 1.75; flex: 1; }
+  .card-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+  .card-stat { text-align: center; min-width: 56px; }
+  .card-stat-num { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--green); }
+  .card-stat-label { font-size: 11px; color: var(--ink-light); }
+  .card-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+  .card-tool { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green); background: var(--green-light); border: 1px solid rgba(26,122,63,0.15); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.03em; }
+  .card-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; color: var(--green);
+    padding: 10px 18px; background: var(--green-light);
+    border: 1px solid rgba(26,122,63,0.2); border-radius: 8px;
+    transition: all 0.2s; width: fit-content; margin-top: 4px;
+  }
+  .card-link:hover { background: var(--green); color: var(--white); border-color: var(--green); }
+  .card-link-coming {
+    display: inline-block; margin-top: 4px; padding: 10px 18px;
+    background: var(--rule); color: var(--ink-light);
+    border-radius: 8px; font-size: 13px; font-weight: 500;
+  }
+
+  /* EDUCATION */
+  .edu-section { background: var(--white); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; }
+  .edu-item { background: var(--cream); border: 1px solid var(--rule); border-radius: 12px; padding: 24px 28px; box-shadow: var(--card-shadow); }
+  .edu-degree { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .edu-institution { font-size: 13px; font-weight: 500; color: var(--ink-mid); margin-bottom: 2px; }
+  .edu-year { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-light); margin-bottom: 12px; }
+  .edu-notes { list-style: none; padding: 0; }
+  .edu-notes li { font-size: 13px; color: var(--ink-mid); padding: 4px 0 4px 14px; position: relative; line-height: 1.6; font-weight: 300; }
+  .edu-notes li::before { content: ''; position: absolute; left: 0; top: 12px; width: 5px; height: 5px; background: var(--green); border-radius: 50%; }
+  .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cert-item { background: var(--cream); border: 1px solid var(--rule); border-left: 3px solid var(--green); border-radius: 0 10px 10px 0; padding: 14px 18px; }
+  .cert-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .cert-issuer { font-size: 12px; color: var(--ink-mid); }
+  .cert-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-light); margin-top: 2px; }
+
+  /* AFFILIATIONS */
+  .affil-section { background: var(--cream); }
+  .affil-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .affil-list li { display: flex; align-items: center; gap: 14px; font-size: 14px; color: var(--ink-mid); padding: 16px 20px; background: var(--white); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--card-shadow); font-weight: 300; }
+  .affil-list li::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
 
   /* CONTACT */
-  #contact { background: var(--ink); color: var(--white); }
-  #contact .section-eyebrow { color: var(--green-mid); }
-  #contact .section-title { color: var(--white); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .contact-text { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.65); line-height: 1.75; }
-  .contact-links { display: flex; flex-direction: column; gap: 16px; }
-  .contact-link { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: var(--white); font-size: 14px; font-weight: 500; transition: background 0.2s, border-color 0.2s; }
-  .contact-link:hover { background: rgba(26,122,63,0.15); border-color: rgba(26,122,63,0.4); }
-  .contact-link-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.06); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .contact-link-label { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .contact-section { background: var(--ink); color: var(--white); }
+  .contact-section .section-eyebrow { color: var(--green-mid); }
+  .contact-section .section-title { color: var(--white); }
+  .contact-body { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.75); max-width: 600px; line-height: 1.85; margin-bottom: 32px; }
+  .contact-links { display: flex; gap: 14px; flex-wrap: wrap; }
+  .contact-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green); color: var(--white);
+    font-size: 14px; font-weight: 600; padding: 13px 26px;
+    border-radius: 8px; transition: background 0.2s;
+  }
+  .contact-btn-primary:hover { background: var(--green-mid); }
+  .contact-btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85);
+    font-size: 14px; font-weight: 500; padding: 12px 22px;
+    border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .contact-btn-outline:hover { background: rgba(26,122,63,0.2); border-color: rgba(26,122,63,0.4); }
 
   /* FOOTER */
-  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
   .footer-note { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
 
   @media (max-width: 900px) {
-    nav { padding: 0 24px; }
+    nav { padding: 0 20px; }
     .nav-links { gap: 20px; }
     .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
-    .hero-right { display: none; }
-    section { padding: 72px 24px; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-    .project-card.featured { grid-template-columns: 1fr; }
+    section { padding: 64px 24px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .cert-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
   }
 </style>
@@ -155,232 +292,368 @@
 <body>
 
 <nav>
-  <span class="nav-logo">DQ · Portfolio</span>
+  <span class="nav-logo">DQ &middot; Portfolio</span>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#tools">Tools</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-grid-bg"></div>
   <div class="hero-left">
-    <div class="hero-eyebrow">Available for Contract &amp; Permanent Roles</div>
-    <h1>Data Quality<br>&amp; <em>Governance</em><br>Specialist</h1>
-    <p class="hero-sub">I work at the intersection of data governance, regulatory compliance, and commercial banking — building the data foundations that organisations depend on when it matters most: during acquisitions, migrations, regulatory scrutiny, and strategic decisions.</p>
-    <div class="hero-tags">
-      <span class="tag">Data Quality</span>
-      <span class="tag">Data Governance</span>
-      <span class="tag">MDM / Reference Data</span>
-      <span class="tag">Metadata Management</span>
-      <span class="tag">KYC &amp; Regulatory Compliance</span>
-      <span class="tag">M&amp;A Due Diligence</span>
+    <div class="hero-available">Available for Contract &amp; Permanent Roles</div>
+    <h1>Calvin Enobor</h1>
+    <div class="hero-roles">
+      <span class="hero-role-tag">Data Analyst</span>
+      <span class="hero-role-tag">Data Quality Specialist</span>
+      <span class="hero-role-tag">Data &amp; Information Governance Specialist</span>
+      <span class="hero-role-tag">Master, Reference &amp; Metadata Analyst</span>
     </div>
-    <a href="#projects" class="hero-cta">
-      View Portfolio
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3l5 5-5 5M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-  <div class="hero-right">
-    <div class="stat-card">
-      <div class="stat-icon">📊</div>
-      <div><div class="stat-value">25M+</div><div class="stat-label">Records governed and audited</div></div>
+    <p class="hero-tagline">I work at the intersection of data and business intelligence. Bringing end-to-end expertise in analytics, data management, information governance and regulatory compliance, building the data foundations that support organisations' day-to-day decisions and strategic action.</p>
+    <div class="hero-actions">
+      <a href="Calvin_Enobor_Resume.docx" download class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Resume
+      </a>
+      <a href="#portfolio" class="btn-outline">View Portfolio</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon">₦</div>
-      <div><div class="stat-value">₦3.8B</div><div class="stat-label">NPL write-offs enabled</div></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🏛️</div>
-      <div><div class="stat-value">2</div><div class="stat-label">Real engagements documented</div></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🛠️</div>
-      <div><div class="stat-value">8+</div><div class="stat-label">Enterprise tools and platforms</div></div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-icon">&#128202;</div><div><div class="stat-value">25M+</div><div class="stat-label">Records governed and audited</div></div></div>
+      <div class="stat-card"><div class="stat-icon">&#8358;</div><div><div class="stat-value">&#8358;3.8B</div><div class="stat-label">NPL write-offs enabled</div></div></div>
+      <div class="stat-card"><div class="stat-icon">&#128197;</div><div><div class="stat-value">4+</div><div class="stat-label">Years of experience</div></div></div>
+      <div class="stat-card"><div class="stat-icon">&#128736;</div><div><div class="stat-value">8+</div><div class="stat-label">Tools and platforms</div></div></div>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <div class="section-header">
-    <p class="section-eyebrow">Background</p>
-    <h2 class="section-title">What I do &amp;<br><em>how I work</em></h2>
-  </div>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>I am a <strong>data quality and governance specialist</strong> with a track record of delivering high-impact engagements in complex, data-dense environments. My work sits at the intersection of data quality, governance, and business risk — helping organisations understand the true state of their data and build the structures to keep it healthy.</p>
-      <p>I have worked across <strong>telecommunications and financial services</strong>, with particular depth in subscriber data integrity, KYC compliance, core banking migrations, and enterprise-wide data stewardship. My engagements include M&amp;A due diligence contexts where data findings have had direct board-level commercial consequences.</p>
-      <p>My career path is deliberate: from Data Analyst to Commercial Banking Officer to Data Steward II at one of Nigeria's tier-one banks. That progression means I understand what data represents in business terms — not just what it looks like in a database. I am focused on building a career in UK financial services data governance.</p>
-    </div>
-    <div>
-      <p style="font-size:13px; font-family:'DM Mono',monospace; color:var(--green); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:24px;">Core Competencies</p>
-      <div class="skills-grid">
-        <div class="skill-row"><span class="skill-name">Data Quality Management</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:95%"></div></div></div>
-        <div class="skill-row"><span class="skill-name">Data Governance &amp; Stewardship</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:92%; animation-delay:0.1s"></div></div></div>
-        <div class="skill-row"><span class="skill-name">MDM / Reference Data</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%; animation-delay:0.2s"></div></div></div>
-        <div class="skill-row"><span class="skill-name">Metadata Management</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%; animation-delay:0.3s"></div></div></div>
-        <div class="skill-row"><span class="skill-name">Regulatory Compliance</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%; animation-delay:0.4s"></div></div></div>
-        <div class="skill-row"><span class="skill-name">SQL / Python / Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:82%; animation-delay:0.5s"></div></div></div>
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-inner">
+    <p class="section-eyebrow">Capabilities</p>
+    <h2 class="section-title">Technical Skills &amp; <em>Core Competencies</em></h2>
+    <div class="skills-grid">
+      <div>
+        <div class="skills-group-title">Technical Skills</div>
+        <div class="tech-chips">
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>MySQL</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Power BI</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Microsoft Excel</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Google Analytics</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>ETL Tools</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Data Storytelling</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 01-9 9M6 9a9 9 0 009 9"/></svg>Git</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Collibra</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Infosys Finacle</span>
+          <span class="tech-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>Jira</span>
+        </div>
+      </div>
+      <div>
+        <div class="skills-group-title">Core Competencies</div>
+        <ul class="competency-list">
+          <li>Data Quality Management</li>
+          <li>Data Governance &amp; Stewardship</li>
+          <li>Master, Reference &amp; Metadata Management</li>
+          <li>Regulatory Compliance (CBN / NDPC / NCC)</li>
+          <li>Data Lineage &amp; Business Glossary</li>
+          <li>Executive Reporting</li>
+          <li>BCBS 239</li>
+          <li>DCAM Principles</li>
+          <li>DAMA DMBOK</li>
+          <li>Team Collaboration &amp; Stakeholder Engagement</li>
+          <li>Data Quality Assurance</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section id="projects">
-  <div class="section-header">
-    <p class="section-eyebrow">Portfolio</p>
-    <h2 class="section-title">Case studies &amp;<br><em>frameworks</em></h2>
-  </div>
-
-  <div class="narrative">
-    <p>This portfolio documents two real engagements that demonstrate the full range of data governance work. The telecoms project shows what crisis-response data quality work looks like: diagnosing a broken data foundation, remediating it under commercial pressure, and building governance structures from scratch. The GTCO project shows what embedded stewardship looks like over time: maintaining data standards daily, navigating regulatory complexity, and ensuring that when a major programme arrives, the data is ready for it.</p>
-    <p>The concept projects extend that range into sectors where the same core disciplines apply directly. The goal of this portfolio is not to demonstrate that I have worked with data. It is to demonstrate that I understand what data is worth — and what it costs when it is wrong.</p>
-  </div>
-
-  <div class="badge-legend">
-    <span class="badge-legend-title">Key</span>
-    <div class="legend-item"><span class="legend-pip green">Engagement</span><span>Real contract work — client identity protected or named</span></div>
-    <div class="legend-item"><span class="legend-pip amber">Concept Project</span><span>Independently designed to demonstrate expertise — not a real client engagement</span></div>
-  </div>
-
-  <div class="projects-grid">
-
-    <!-- PROJECT 1 — TELECOMS -->
-    <a class="project-card featured" href="telecoms-case-study.html">
-      <div class="project-card-banner" data-number="01">
-        <span class="project-badge engagement">✦ Engagement · Anonymised</span>
-        <h3>Subscriber Data Integrity<br>in an M&amp;A Context</h3>
-      </div>
-      <div class="project-card-body">
-        <div class="project-meta">
-          <span class="meta-chip">Telecoms</span>
-          <span class="meta-chip">Data Quality</span>
-          <span class="meta-chip">M&amp;A Due Diligence</span>
-          <span class="meta-chip">Nigeria</span>
-        </div>
-        <p class="project-desc">A full-lifecycle data quality audit for a Nigerian telecoms operator undergoing ownership transition. Spanning ~21.8 million gross subscriber records, the engagement identified 1.8M duplicates, 4M inactive subscribers, and a ₦23.5M credit recovery risk — directly informing the acquisition valuation. KYC remediation improved collections from 9% to 30%.</p>
-        <div class="project-findings">
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>29% reduction</strong> in reported subscriber base after deduplication and inactivity classification</span></div>
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>600+ enterprise accounts</strong> misclassified — revenue leakage corrected across highest-value segment</span></div>
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>9% to 30% collection improvement</strong> on ₦23.5M student loan book after KYC remediation</span></div>
-        </div>
-        <span class="project-cta">Read Case Study <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </div>
-    </a>
-
-    <!-- PROJECT 2 — GTCO -->
-    <a class="project-card featured" href="gtco-case-study.html">
-      <div class="project-card-banner" data-number="02">
-        <span class="project-badge engagement">✦ Engagement · Named</span>
-        <h3>Embedded Data Stewardship<br>at GTCO Plc</h3>
-      </div>
-      <div class="project-card-body">
-        <div class="project-meta">
-          <span class="meta-chip">Financial Services</span>
-          <span class="meta-chip">Data Stewardship</span>
-          <span class="meta-chip">Core Banking Migration</span>
-          <span class="meta-chip">Nigeria</span>
-        </div>
-        <p class="project-desc">26 months of embedded data stewardship at Guaranty Trust Bank Plc (GTCO Plc), culminating in a 90-day Basis-to-Finacle core banking migration. Identified a ₦4.2B NPL portfolio, improved NIN/BVN linkage from 9% to 33% in 60 days, and governed 3.9M customer records across 52 branches.</p>
-        <div class="project-findings">
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>₦3.8B NPL write-offs</strong> enabled by migration classification work during CBN recapitalisation</span></div>
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>33% NIN/BVN linkage</strong> achieved in 60 days, up from 9% over the prior 12 months</span></div>
-          <div class="finding-row"><div class="finding-dot"></div><span class="finding-text"><strong>100,000+ duplicate accounts</strong> consolidated into single Customer Information Files</span></div>
-        </div>
-        <span class="project-cta">Read Case Study <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </div>
-    </a>
-
-    <!-- PROJECT 3 — MDM ENERGY -->
-    <div class="project-card placeholder">
-      <div class="project-card-banner" data-number="03">
-        <span class="project-badge concept">Concept Project · Coming Soon</span>
-        <h3>Master Data Management<br>Blueprint — Energy Sector</h3>
-      </div>
-      <div class="project-card-body">
-        <div class="project-meta"><span class="meta-chip">Energy &amp; Utilities</span><span class="meta-chip">MDM</span><span class="meta-chip">UK</span></div>
-        <p class="project-desc">An independently designed concept MDM framework for a UK energy operator — golden record design, domain ownership, and Ofgem compliance alignment.</p>
-      </div>
-    </div>
-
-    <!-- PROJECT 4 — SPORTS -->
-    <div class="project-card placeholder">
-      <div class="project-card-banner" data-number="04">
-        <span class="project-badge concept">Concept Project · Coming Soon</span>
-        <h3>Data Governance for a<br>Premier League Club</h3>
-      </div>
-      <div class="project-card-body">
-        <div class="project-meta"><span class="meta-chip">Sports</span><span class="meta-chip">Governance</span><span class="meta-chip">GDPR</span></div>
-        <p class="project-desc">An independently designed governance framework covering fan data, commercial partnerships, player performance data, and GDPR compliance for a top-flight football club.</p>
-      </div>
-    </div>
-
-    <!-- PROJECT 5 — METADATA -->
-    <div class="project-card placeholder">
-      <div class="project-card-banner" data-number="05">
-        <span class="project-badge concept">Concept Project · Coming Soon</span>
-        <h3>Metadata Management &amp;<br>Business Glossary Design</h3>
-      </div>
-      <div class="project-card-body">
-        <div class="project-meta"><span class="meta-chip">Financial Services</span><span class="meta-chip">Metadata</span><span class="meta-chip">UK</span></div>
-        <p class="project-desc">An independently designed metadata management programme for a UK financial services firm, building a business glossary and CDE framework aligned to FCA reporting requirements.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="tools">
-  <div class="section-header">
+<!-- TOOLS -->
+<section class="tools-section" id="tools">
+  <div class="section-inner">
     <p class="section-eyebrow">Technical Stack</p>
-    <h2 class="section-title">Tools &amp; <em>platforms</em></h2>
-  </div>
-  <div class="tools-grid">
-    <div class="tool-item"><div class="tool-item-icon">🗄️</div><div class="tool-item-name">SQL</div><div class="tool-item-type">Data Engineering</div></div>
-    <div class="tool-item"><div class="tool-item-icon">🐍</div><div class="tool-item-name">Python</div><div class="tool-item-type">Analytics &amp; Automation</div></div>
-    <div class="tool-item"><div class="tool-item-icon">📊</div><div class="tool-item-name">Power BI</div><div class="tool-item-type">Visualisation</div></div>
-    <div class="tool-item"><div class="tool-item-icon">🏛️</div><div class="tool-item-name">Collibra</div><div class="tool-item-type">Data Governance</div></div>
-    <div class="tool-item"><div class="tool-item-icon">⚙️</div><div class="tool-item-name">Informatica</div><div class="tool-item-type">ETL &amp; DQ Platform</div></div>
-    <div class="tool-item"><div class="tool-item-icon">📋</div><div class="tool-item-name">Business Objects</div><div class="tool-item-type">Reporting</div></div>
-    <div class="tool-item"><div class="tool-item-icon">🏦</div><div class="tool-item-name">Infosys Finacle</div><div class="tool-item-type">Core Banking</div></div>
-    <div class="tool-item"><div class="tool-item-icon">📎</div><div class="tool-item-name">Excel</div><div class="tool-item-type">Analysis &amp; Documentation</div></div>
-    <div class="tool-item"><div class="tool-item-icon">👥</div><div class="tool-item-name">CRM Platforms</div><div class="tool-item-type">Customer Data</div></div>
+    <h2 class="section-title">Tools &amp; <em>Platforms</em></h2>
+    <div class="tools-grid">
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>SQL / MySQL</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Power BI</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Microsoft Excel</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Google Analytics</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Collibra</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Informatica</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Infosys Finacle</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 01-9 9M6 9a9 9 0 009 9"/></svg>Git</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>Jira</div>
+      <div class="tool-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>CRM Platforms</div>
+    </div>
   </div>
 </section>
 
-<section id="contact">
-  <div class="section-header">
-    <p class="section-eyebrow">Get In Touch</p>
-    <h2 class="section-title">Open to the<br><em>right opportunity</em></h2>
+<!-- EXPERIENCE -->
+<section class="experience-section" id="experience">
+  <div class="section-inner">
+    <p class="section-eyebrow">Professional History</p>
+    <h2 class="section-title">Professional Experience</h2>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Data Management Analyst</div>
+          <div class="exp-org">Berkeley Data Strategist &middot; London, United Kingdom</div>
+          <div class="exp-meta">April 2025 &ndash; June 2025</div>
+        </div>
+        <span class="exp-badge exp-badge-ct">Contract</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Designed and executed data quality testing routines and validation frameworks across multiple enterprise platforms, identifying control weaknesses and producing structured governance reports with prioritised remediation recommendations.</li>
+        <li>Developed enterprise data dictionaries and business glossaries aligned to DAMA-DMBOK principles, standardising master data definitions and metadata across business units to improve downstream reporting accuracy.</li>
+        <li>Built data quality scorecards and KPIs to monitor control effectiveness and data integrity, providing senior stakeholders with transparent, ongoing assurance and supporting governance roadmap prioritisation.</li>
+        <li>Implemented master data management (MDM) policies and repeatable data governance standards, ensuring consistent classification, retention, and lifecycle management of information assets across the organisation.</li>
+        <li>Established ethical AI compliance protocols and data governance controls for automated workflows, ensuring outputs remained auditable, traceable, and aligned to organisational policy and data lineage requirements.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Data Steward</div>
+          <div class="exp-org">Guaranty Trust Bank Plc (GTCO Plc) &middot; Port Harcourt, Nigeria</div>
+          <div class="exp-meta">November 2022 &ndash; January 2025</div>
+        </div>
+        <span class="exp-badge exp-badge-ft">Full-Time</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Governed and stewarded data quality and integrity across 5+ enterprise systems, improving operational data accuracy from 85% to 96% through structured profiling, data quality rules enforcement, validation, and root-cause analysis.</li>
+        <li>Designed and delivered a continuous data quality improvement programme aligned to DAMA-DMBOK, reducing data quality issues by 22% organisation-wide through targeted cleansing, standardisation, reference data alignment, and control remediation.</li>
+        <li>Defined and maintained enterprise-wide master data and reference data standards, developing data dictionaries and metadata repositories across 20+ business units to improve data lineage, traceability, and consistency.</li>
+        <li>Supported senior stakeholders and accountable data owners in defining and evolving data accountability frameworks, embedding data stewardship responsibilities at both operational and leadership levels.</li>
+        <li>Collaborated with IT, risk, and compliance teams to identify and remediate data governance control gaps, ensuring corporate reporting met CBN regulatory compliance standards and internal data management policies.</li>
+        <li>Automated data quality monitoring using pipeline tooling, reducing manual assurance effort by an estimated 35% and improving consistency and frequency of compliance and quality reporting.</li>
+        <li>Produced data governance assurance reports and performance analyses for senior leadership, translating complex metadata and quality findings into clear narratives that influenced policy updates and data strategy decisions.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Data Analyst</div>
+          <div class="exp-org">Living Faith World-Wide &middot; Port Harcourt, Nigeria</div>
+          <div class="exp-meta">February 2021 &ndash; October 2022</div>
+        </div>
+        <span class="exp-badge exp-badge-ft">Full-Time</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Managed end-to-end data quality assurance and information lifecycle governance for a digital portal supporting 6,000+ staff, implementing data classification, retention, and validation controls across 7 districts and 182 branches.</li>
+        <li>Directed large-scale master data cleansing, standardisation, and reference data alignment, embedding quality controls that ensured consistent, accurate organisational reporting at scale.</li>
+        <li>Identified and resolved data inconsistencies in payroll master data, resulting in a 22% reduction in personnel expenses within three months through improved data integrity and governance enforcement.</li>
+        <li>Developed a centralised employee master data repository, migrating and standardising records for 900+ staff to enable accurate workforce analytics, data lineage tracking, and performance reporting for senior management.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Data Enumerator</div>
+          <div class="exp-org">Civil Resource Development and Documentation Centre (CIRDDOC) &middot; Calabar, Nigeria</div>
+          <div class="exp-meta">March 2019 &ndash; January 2021</div>
+        </div>
+        <span class="exp-badge exp-badge-ct">Contract</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Directed a team of twenty-four data enumerators to complete data collection, analysis, and interpretation towards the implementation of the 2020 COVID-19 intervention programme sponsored by the EU and the Federal Government of Nigeria across nine states. The programme granted over 10,000 women access to emergency relief funds, business grants, and one-on-one mentorships.</li>
+      </ul>
+    </div>
+
   </div>
-  <div class="contact-grid">
-    <p class="contact-text">I am currently available for contract and permanent roles in <strong style="color:white">data quality</strong>, <strong style="color:white">data governance</strong>, and <strong style="color:white">master data management</strong> — particularly within financial services, energy &amp; utilities, and regulated industries in the UK and internationally.<br><br>If you are a hiring manager, recruiter, or potential collaborator, I would be glad to hear from you.</p>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="portfolio">
+  <div class="section-inner">
+    <p class="section-eyebrow">Portfolio</p>
+    <h2 class="section-title">Case Studies &amp; <em>Projects</em></h2>
+
+    <div class="portfolio-intro">
+      <p>This portfolio documents two real engagements that demonstrate the breadth of my work. The first is a contract data quality audit for a Nigerian telecoms operator during an M&amp;A ownership transition, where findings directly informed the acquisition valuation and exposed a significant credit recovery risk. The second is 26 months of embedded data stewardship at Guaranty Trust Bank Plc, culminating in a core banking migration and outcomes measured in billions of naira.</p>
+      <p>Together, these engagements show two distinct modes of practice. One demonstrates rapid, high-stakes diagnosis and remediation under commercial pressure. The other demonstrates sustained governance over time, where discipline and consistency enabled a major programme to succeed. The concept projects extend this range into UK-relevant sectors, applying the same rigour to new contexts.</p>
+    </div>
+
+    <div class="badge-legend">
+      <span class="badge-legend-title">Key</span>
+      <div class="legend-item"><span class="legend-pip green">Engagement</span> Real contract work, client identity protected or named</div>
+      <div class="legend-item"><span class="legend-pip amber">Concept Project</span> Independently developed, clearly labelled</div>
+    </div>
+
+    <div class="project-grid">
+
+      <div class="project-card featured">
+        <div class="card-banner">
+          <div class="card-meta">
+            <span class="card-industry">Telecommunications &middot; Nigeria</span>
+            <span class="card-badge engagement">Engagement &middot; Anonymised</span>
+          </div>
+          <div class="card-title">Subscriber Data Integrity in an M&amp;A Context</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">A full-lifecycle data quality audit for a Nigerian telecoms operator undergoing an ownership transition. Findings directly informed the acquisition valuation and exposed a &#8358;23.5M credit recovery risk. KYC remediation improved collection rates from 9% to 30%.</div>
+          <div class="card-stats">
+            <div class="card-stat"><div class="card-stat-num">~21.8M</div><div class="card-stat-label">Gross records</div></div>
+            <div class="card-stat"><div class="card-stat-num">1.8M</div><div class="card-stat-label">Duplicates found</div></div>
+            <div class="card-stat"><div class="card-stat-num">9%&rarr;30%</div><div class="card-stat-label">Collections uplift</div></div>
+          </div>
+          <div class="card-tools">
+            <span class="card-tool">SQL</span><span class="card-tool">Python</span><span class="card-tool">Power BI</span><span class="card-tool">Informatica</span><span class="card-tool">Collibra</span>
+          </div>
+          <a href="telecoms-case-study.html" class="card-link">Read case study &rarr;</a>
+        </div>
+      </div>
+
+      <div class="project-card featured">
+        <div class="card-banner">
+          <div class="card-meta">
+            <span class="card-industry">Financial Services &middot; Nigeria</span>
+            <span class="card-badge engagement">Engagement &middot; Named</span>
+          </div>
+          <div class="card-title">Embedded Data Stewardship at GTCO Plc</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">26 months of embedded data stewardship at Guaranty Trust Bank Plc, culminating in a 90-day Basis-to-Finacle core banking migration. Identified a &#8358;4.2B NPL portfolio, improved NIN/BVN linkage from 9% to 33% in 60 days, and governed 3.9M customer records across 52 branches.</div>
+          <div class="card-stats">
+            <div class="card-stat"><div class="card-stat-num">3.9M</div><div class="card-stat-label">Customers governed</div></div>
+            <div class="card-stat"><div class="card-stat-num">&#8358;3.8B</div><div class="card-stat-label">NPL write-offs</div></div>
+            <div class="card-stat"><div class="card-stat-num">33%</div><div class="card-stat-label">NIN/BVN in 60 days</div></div>
+          </div>
+          <div class="card-tools">
+            <span class="card-tool">SQL</span><span class="card-tool">Power BI</span><span class="card-tool">Business Objects</span><span class="card-tool">Finacle</span>
+          </div>
+          <a href="gtco-case-study.html" class="card-link">Read case study &rarr;</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-banner">
+          <div class="card-meta">
+            <span class="card-industry">Energy &amp; Utilities &middot; UK</span>
+            <span class="card-badge concept">Concept Project</span>
+          </div>
+          <div class="card-title">Master Data Management Blueprint &mdash; Energy Sector</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">A concept MDM framework for a UK energy and utilities operator, covering asset data, customer master data, and regulatory reporting integrity. Explores golden record design, domain ownership, and Ofgem compliance alignment.</div>
+          <div class="card-tools"><span class="card-tool">MDM</span><span class="card-tool">SQL</span><span class="card-tool">Power BI</span></div>
+          <span class="card-link-coming">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-banner">
+          <div class="card-meta">
+            <span class="card-industry">Sports &amp; Entertainment &middot; UK</span>
+            <span class="card-badge concept">Concept Project</span>
+          </div>
+          <div class="card-title">Data Governance for a Premier League Club</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">A concept data governance framework for a top-flight football club, covering fan data, commercial partnerships, player performance data, and GDPR compliance across a complex multi-domain environment.</div>
+          <div class="card-tools"><span class="card-tool">Governance</span><span class="card-tool">GDPR</span><span class="card-tool">Collibra</span></div>
+          <span class="card-link-coming">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-banner">
+          <div class="card-meta">
+            <span class="card-industry">Financial Services &middot; UK</span>
+            <span class="card-badge concept">Concept Project</span>
+          </div>
+          <div class="card-title">Metadata Management and Business Glossary Design</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">A concept metadata management programme for a UK financial services firm, building a business glossary, data lineage documentation, and a critical data element framework aligned to FCA reporting requirements.</div>
+          <div class="card-tools"><span class="card-tool">Metadata</span><span class="card-tool">Collibra</span><span class="card-tool">Data Lineage</span></div>
+          <span class="card-link-coming">Coming soon</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="section-inner">
+    <p class="section-eyebrow">Qualifications</p>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-degree">Master of Science in Business Management</div>
+        <div class="edu-institution">University of Derby International Business School</div>
+        <div class="edu-year">United Kingdom &middot; March 2026</div>
+        <ul class="edu-notes">
+          <li>Comprehensive coursework on organisational strategy and understanding the changing business environment</li>
+          <li>Modules on risk management and mitigation practices, portfolio management, and resource maximisation</li>
+        </ul>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Bachelor of Science in Political Science</div>
+        <div class="edu-institution">University of Calabar</div>
+        <div class="edu-year">Nigeria &middot; March 2021</div>
+        <ul class="edu-notes">
+          <li>Relevant coursework included analysis, research methods, data interpretation, and evidence-based decision-making, forming the foundation for current work in data management</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="section-eyebrow" style="margin-top:8px">Certifications</p>
+    <div class="cert-grid" style="margin-top:16px">
+      <div class="cert-item"><div class="cert-name">Certified Data Management Professional (CDMP)</div><div class="cert-issuer">DAMA International</div><div class="cert-year">Expected June 2026</div></div>
+      <div class="cert-item"><div class="cert-name">Data Management Capability Assessment Model (DCAM)</div><div class="cert-issuer">EDM Council</div><div class="cert-year">Expected July 2026</div></div>
+      <div class="cert-item"><div class="cert-name">Data Analytics Diploma</div><div class="cert-issuer">Explore AI</div><div class="cert-year">2024</div></div>
+      <div class="cert-item"><div class="cert-name">Google Data Analytics Certificate</div><div class="cert-issuer">Google</div><div class="cert-year">2022</div></div>
+      <div class="cert-item"><div class="cert-name">Data Management Fundamentals</div><div class="cert-issuer">CPD Institute</div><div class="cert-year">June 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AFFILIATIONS -->
+<section class="affil-section" id="affiliations">
+  <div class="section-inner">
+    <p class="section-eyebrow">Memberships</p>
+    <h2 class="section-title">Professional <em>Affiliations</em></h2>
+    <ul class="affil-list">
+      <li>Associate Member, DAMA United Kingdom</li>
+      <li>Member, EU Data to Policy Initiative</li>
+      <li>Member, Political Science Association of Nigeria</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <p class="section-eyebrow">Get in Touch</p>
+    <h2 class="section-title">Open to the <em>Right Opportunity</em></h2>
+    <p class="contact-body">I am currently available for contract and permanent roles in data quality, data and information governance, and master data management, particularly within financial services and any regulated industries in the UK and internationally. If you are a hiring manager, recruiter, or potential collaborator, I would be glad to hear from you.</p>
     <div class="contact-links">
-      <a href="https://linkedin.com/in/calvin-enobor-3963b719b" class="contact-link" target="_blank">
-        <div class="contact-link-icon">💼</div>
-        <div><div>Connect on LinkedIn</div><div class="contact-link-label">View full work history &amp; endorsements</div></div>
+      <a href="mailto:calvin.enobor@gmail.com" class="contact-btn-primary">Email me</a>
+      <a href="https://linkedin.com/in/calvin-enobor-3963b719b" target="_blank" class="contact-btn-outline">LinkedIn</a>
+      <a href="Calvin_Enobor_Resume.docx" download class="contact-btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Resume
       </a>
-      <a href="mailto:calvin.enobor@gmail.com" class="contact-link">
-        <div class="contact-link-icon">✉️</div>
-        <div><div>Send an Email</div><div class="contact-link-label">calvin.enobor@gmail.com</div></div>
-      </a>
-      <a href="telecoms_dq_case_study.docx" download class="contact-link">
-        <div class="contact-link-icon">📄</div>
-        <div><div>Download Telecoms Case Study</div><div class="contact-link-label">Full DQ audit — Word document</div></div>
-      </a>
-      <a href="gtco_case_study.docx" download class="contact-link">
-        <div class="contact-link-icon">📄</div>
-        <div><div>Download GTCO Case Study</div><div class="contact-link-label">Data stewardship — Word document</div></div>
-      </a>
+      <a href="telecoms_dq_case_study_updated.docx" download class="contact-btn-outline">Telecoms case study</a>
+      <a href="gtco_case_study.docx" download class="contact-btn-outline">GTCO case study</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <span class="footer-note">© 2025 — Calvin Enobor · Data Quality &amp; Governance Portfolio</span>
-  <span class="footer-note">Built for professional use · All client data anonymised where applicable</span>
+  <span class="footer-note">&copy; 2026 Calvin Enobor &middot; Data Quality &amp; Governance Specialist</span>
+  <span class="footer-note">London, UK &middot; All client data anonymised where applicable</span>
 </footer>
 
 </body>
