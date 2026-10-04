@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data &amp; AI Governance Case Study | Calvin Enobor</title>
+<meta name="description" content="Case study: building data and AI governance from the ground up for a global renewable energy developer. Microsoft Purview platform build, federated data ownership, EU AI Act controls and an MCP gateway governing Claude, Copilot and ChatGPT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:#1a7a3f; --green-mid:#2a9d56; --green-light:#e8f5ec; --green-deep:#0d4a25;
+    --ink:#0e1a14; --ink-mid:#3a4a40; --ink-light:#6b7a70; --rule:#d4e2d8; --cream:#f7faf8; --white:#ffffff;
+    --amber:#92600a; --amber-light:#fef9ec; --red:#b42318; --red-light:#fdecea;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(247,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.05em; }
+  .nav-back { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink-mid); transition: color 0.2s; }
+  .nav-back:hover { color: var(--green); }
+
+  /* HERO */
+  .case-hero { margin-top: 64px; background: linear-gradient(135deg, #0d4a25 0%, var(--green) 50%, #0d5a2a 100%); padding: 80px 48px 72px; position: relative; overflow: hidden; }
+  .case-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 48px 48px; }
+  .case-hero-inner { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center; }
+  .case-hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 100px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+  .case-hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(34px, 4.6vw, 56px); color: white; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .case-hero h1 em { font-style: italic; color: #b9ecc9; }
+  .case-hero-sub { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.75); margin-bottom: 36px; max-width: 600px; }
+  .case-meta-row { display: flex; flex-wrap: wrap; gap: 28px; }
+  .case-meta-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .case-meta-value { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); }
+  .hero-art { width: 100%; height: auto; display: block; }
+
+  /* STATS */
+  .stats-strip { background: var(--white); border-bottom: 1px solid var(--rule); }
+  .stats-strip-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat-item { padding: 28px 24px; border-right: 1px solid var(--rule); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 38px; color: var(--green); line-height: 1; margin-bottom: 6px; }
+  .stat-lbl { font-size: 12px; color: var(--ink-light); line-height: 1.4; }
+
+  /* LAYOUT */
+  .case-layout { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: 64px; padding: 64px 48px; align-items: start; }
+  .case-content { min-width: 0; }
+  .case-sidebar { position: sticky; top: 88px; }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-title { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .sidebar-links { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-group { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em; margin: 10px 0 4px 10px; }
+  .sidebar-link { font-size: 13px; color: var(--ink-mid); padding: 6px 10px; border-radius: 6px; transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; }
+  .sidebar-link:hover { background: var(--green-light); color: var(--green); border-left-color: var(--green); }
+  .sidebar-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-mid); background: var(--white); border: 1px solid var(--rule); padding: 4px 8px; border-radius: 4px; letter-spacing: 0.03em; }
+
+  /* WORKSTREAM DIVIDER */
+  .ws-divider { margin: 8px 0 48px; border-radius: 14px; background: var(--ink); color: white; padding: 28px 30px; display: flex; gap: 22px; align-items: center; position: relative; overflow: hidden; }
+  .ws-divider::after { content: ''; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(42,157,86,0.35), transparent 70%); }
+  .ws-letter { font-family: 'DM Serif Display', serif; font-size: 54px; line-height: 1; color: #6fd394; flex-shrink: 0; width: 64px; height: 64px; border-radius: 14px; border: 1px solid rgba(111,211,148,0.35); display: flex; align-items: center; justify-content: center; }
+  .ws-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+  .ws-title { font-family: 'DM Serif Display', serif; font-size: 26px; line-height: 1.2; }
+  .ws-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.7); margin-top: 6px; max-width: 560px; }
+
+  /* SECTIONS */
+  .case-section { margin-bottom: 64px; }
+  .case-section-num { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .case-section h2 { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--green-light); line-height: 1.2; }
+  .case-section h3 { font-size: 17px; font-weight: 600; color: var(--ink); margin: 28px 0 12px; }
+  .case-section p { font-size: 15px; font-weight: 300; color: var(--ink-mid); margin-bottom: 16px; line-height: 1.8; }
+  .case-section p strong { font-weight: 600; color: var(--ink); }
+
+  .callout { display: flex; margin: 24px 0; border-radius: 8px; overflow: hidden; }
+  .callout-bar { width: 4px; background: var(--green); flex-shrink: 0; }
+  .callout-body { background: var(--green-light); padding: 18px 20px; flex: 1; }
+  .callout-label { font-size: 12px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .callout-text { font-size: 14px !important; font-weight: 300; color: var(--ink-mid); font-style: italic; line-height: 1.7; margin: 0 !important; }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  .data-table th { background: var(--green); color: white; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 16px; text-align: left; }
+  .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--rule); color: var(--ink-mid); vertical-align: top; }
+  .data-table tr:nth-child(even) td { background: var(--white); }
+  .data-table td strong { color: var(--ink); font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+
+  .case-list { list-style: none; margin: 16px 0 20px; display: flex; flex-direction: column; gap: 10px; }
+  .case-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; }
+  .case-list li::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; margin-top: 10px; }
+  .case-list li strong { font-weight: 600; color: var(--ink); }
+
+  /* FIGURES */
+  figure.fig { margin: 28px 0 32px; background: var(--white); border: 1px solid var(--rule); border-radius: 14px; padding: 26px 24px 18px; box-shadow: 0 2px 24px rgba(14,26,20,0.06); }
+  figcaption { font-size: 12px; color: var(--ink-light); margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--rule); line-height: 1.6; }
+  figcaption b { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); letter-spacing: 0.06em; text-transform: uppercase; font-size: 10px; margin-right: 6px; }
+  .fig-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+
+  /* Fig 1: engagement map */
+  .emap { display: grid; grid-template-columns: 1fr 34px 1.5fr 34px 1fr; align-items: stretch; gap: 0; }
+  .emap-col { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .emap-node { border-radius: 10px; padding: 14px 16px; border: 1px solid var(--rule); background: var(--cream); }
+  .emap-node.found { background: var(--green-light); border-color: rgba(26,122,63,0.25); }
+  .emap-node.ws { background: var(--white); border: 1.5px solid var(--green); }
+  .emap-node.ws.b { border-color: var(--green-deep); background: #f1f6f3; }
+  .emap-node.live { background: var(--ink); color: white; border-color: var(--ink); }
+  .emap-k { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .emap-node.live .emap-k { color: #6fd394; }
+  .emap-t { font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .emap-d { font-size: 12px; color: var(--ink-light); margin-top: 4px; line-height: 1.5; }
+  .emap-node.live .emap-d { color: rgba(255,255,255,0.65); }
+  .emap-arrow { display: flex; align-items: center; justify-content: center; color: var(--green); }
+  .emap-arrow svg { width: 22px; height: 22px; }
+
+  /* Fig 2: doc stack */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .doc { position: relative; background: var(--cream); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 12px 12px 40px; font-size: 12.5px; font-weight: 500; color: var(--ink-mid); line-height: 1.35; min-height: 52px; display: flex; align-items: center; }
+  .doc svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); }
+  .doc.key { background: var(--green-light); border-color: rgba(26,122,63,0.3); color: var(--green-deep); }
+
+  /* Fig 3: Purview architecture */
+  .pv { display: grid; grid-template-columns: minmax(0,1fr) 20px minmax(0,1fr) 20px minmax(0,1fr) 20px minmax(0,1.05fr); gap: 0; align-items: stretch; }
+  .pv-col { min-width: 0; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .pv-col.src { background: var(--cream); border: 1px solid var(--rule); }
+  .pv-col.map { background: var(--green-light); border: 1px solid rgba(26,122,63,0.25); }
+  .pv-col.cat { background: #eef4f0; border: 1px solid rgba(13,74,37,0.2); }
+  .pv-col.dq { background: var(--ink); color: white; }
+  .pv-h { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 2px; }
+  .pv-col.dq .pv-h { color: #6fd394; }
+  .pv-chip { background: var(--white); border: 1px solid var(--rule); border-radius: 7px; padding: 8px 10px; font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 8px; color: var(--ink-mid); }
+  .pv-chip svg { flex-shrink: 0; color: var(--green); }
+  .pv-tree { white-space: nowrap; overflow: hidden; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-mid); line-height: 1.9; background: var(--white); border-radius: 7px; padding: 8px 10px; border: 1px solid var(--rule); }
+  .pv-tree .t1 { padding-left: 8px; } .pv-tree .t2 { padding-left: 20px; color: var(--green); font-weight: 500; }
+  .pv-dom { border-radius: 8px; padding: 9px 10px; font-size: 12.5px; background: var(--white); border: 1px solid var(--rule); }
+  .pv-dom.ph { border-style: dashed; color: var(--ink-light); background: transparent; }
+  .pv-dom strong { display: block; font-size: 13px; color: var(--ink); }
+  .pv-prod { margin-top: 6px; font-size: 11.5px; background: var(--green); color: white; border-radius: 6px; padding: 6px 8px; display: flex; gap: 6px; align-items: center; }
+  .dq-dims { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .dq-dim { font-size: 11.5px; padding: 7px 8px; border-radius: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); display: flex; gap: 6px; align-items: center; }
+  .dq-dim::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #6fd394; flex-shrink: 0; }
+  .pv-note { font-size: 11.5px; color: rgba(255,255,255,0.6); line-height: 1.5; margin-top: 4px; }
+  .pv-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-light); }
+
+  /* Fig 4: federated model */
+  .fed { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .fed-tier { width: 100%; border-radius: 12px; padding: 16px 18px; display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: center; }
+  .fed-tier.t1 { background: var(--ink); color: white; width: 62%; }
+  .fed-tier.t2 { background: var(--green-light); border: 1px solid rgba(26,122,63,0.25); width: 82%; }
+  .fed-tier.t3 { background: var(--cream); border: 1px solid var(--rule); }
+  .fed-k { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+  .fed-tier.t1 .fed-k { color: #6fd394; }
+  .fed-t { font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .fed-d { font-size: 12.5px; color: var(--ink-light); line-height: 1.5; margin-top: 2px; }
+  .fed-tier.t1 .fed-d { color: rgba(255,255,255,0.65); }
+  .fed-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fed-pill { font-size: 12px; font-weight: 500; padding: 5px 11px; border-radius: 100px; background: var(--white); border: 1px solid rgba(26,122,63,0.3); color: var(--green-deep); }
+  .fed-pill.more { border-style: dashed; color: var(--ink-light); border-color: var(--rule); }
+  .fed-regions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .fed-region { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 8px; text-align: center; }
+  .fed-region svg { color: var(--green); }
+  .fed-region div { font-size: 12.5px; font-weight: 600; margin-top: 2px; }
+  .fed-conn { width: 2px; height: 18px; background: var(--rule); position: relative; }
+  .fed-conn::after { content: ''; position: absolute; left: -4px; bottom: -2px; border: 5px solid transparent; border-top-color: var(--rule); border-bottom: 0; }
+  .fed-side { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; }
+
+  /* Fig 5: before / after gateway */
+  .ba { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .ba-panel { border-radius: 12px; padding: 18px; }
+  .ba-panel.before { background: var(--red-light); border: 1px solid rgba(180,35,24,0.2); }
+  .ba-panel.after { background: var(--cream); border: 1px solid var(--rule); }
+  .ba-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 14px; font-weight: 500; }
+  .before .ba-tag { background: var(--red); color: white; }
+  .after .ba-tag { background: var(--green); color: white; }
+  .flow { display: flex; align-items: stretch; gap: 0; }
+  .flow-node { flex: 1; border-radius: 10px; padding: 12px; background: var(--white); border: 1px solid var(--rule); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .flow-node .fn-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--green-light); color: var(--green); }
+  .flow-node .fn-t { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .flow-node .fn-d { font-size: 11.5px; color: var(--ink-light); line-height: 1.45; }
+  .flow-node.gw { background: var(--ink); color: white; border-color: var(--ink); flex: 1.3; }
+  .flow-node.gw .fn-icon { background: rgba(111,211,148,0.15); color: #6fd394; }
+  .flow-node.gw .fn-d { color: rgba(255,255,255,0.65); }
+  .flow-node.dlp { border: 1.5px solid var(--green); }
+  .flow-node.bad { border-color: rgba(180,35,24,0.3); }
+  .flow-node.bad .fn-icon { background: var(--red-light); color: var(--red); }
+  .flow-arrow { width: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-light); }
+  .flow-arrow.red { color: var(--red); }
+  .tiers { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }
+  .tier { font-size: 11px; font-weight: 500; padding: 4px 7px; border-radius: 5px; background: var(--green-light); color: var(--green-deep); }
+  .checks { display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }
+  .check { font-size: 11px; display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.85); }
+  .check::before { content: '✓'; color: #6fd394; font-weight: 700; }
+  .ai-list { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; }
+  .ai { font-size: 12px; font-weight: 600; padding: 5px 8px; border-radius: 6px; background: var(--cream); border: 1px solid var(--rule); }
+  .blocked { margin-top: 12px; display: flex; align-items: center; gap: 10px; background: var(--white); border: 1px dashed rgba(180,35,24,0.45); border-radius: 8px; padding: 9px 12px; font-size: 12.5px; color: var(--ink-mid); }
+  .blocked .x { width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+
+  /* tier cards */
+  .tier-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0 8px; }
+  .tier-card { background: var(--white); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; border-top: 3px solid var(--green); }
+  .tier-card:nth-child(2) { border-top-color: var(--green-mid); }
+  .tier-card:nth-child(3) { border-top-color: #7cc596; }
+  .tier-card .tc-k { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); }
+  .tier-card .tc-t { font-family: 'DM Serif Display', serif; font-size: 22px; margin: 2px 0 6px; }
+  .tier-card .tc-d { font-size: 13px; color: var(--ink-mid); font-weight: 300; line-height: 1.6; }
+
+  /* Fig 6: AI Act pyramid */
+  .aiact { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: center; }
+  .pyr { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .pyr-l { height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 600; clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%); text-align: center; line-height: 1.15; }
+  .pyr-l small { display: block; font-size: 10.5px; font-weight: 400; opacity: 0.85; }
+  .pyr-l.u { width: 42%; background: var(--red); clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); }
+  .pyr-l.h { width: 61%; background: #c2700f; }
+  .pyr-l.l { width: 80%; background: var(--green-mid); }
+  .pyr-l.m { width: 100%; background: var(--green-deep); }
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+  .step-dot { width: 34px; height: 34px; border-radius: 50%; background: var(--green-light); border: 1.5px solid var(--green); color: var(--green); font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+  .step-line { width: 2px; background: var(--rule); height: 14px; margin-left: 16px; }
+  .step-t { font-size: 14px; font-weight: 600; line-height: 1.3; padding-top: 6px; }
+  .step-d { font-size: 12.5px; color: var(--ink-light); line-height: 1.5; }
+
+  /* adoption */
+  .adopt { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .adopt-tile { background: var(--cream); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; text-align: center; }
+  .adopt-num { font-family: 'DM Serif Display', serif; font-size: 40px; color: var(--green); line-height: 1; }
+  .adopt-lbl { font-size: 12.5px; color: var(--ink-mid); margin-top: 6px; line-height: 1.4; }
+  .region-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .region-pill { font-family: 'DM Mono', monospace; font-size: 11px; padding: 6px 12px; border-radius: 100px; background: var(--green-light); color: var(--green-deep); border: 1px solid rgba(26,122,63,0.2); }
+
+  /* outcomes */
+  .outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .oc { background: var(--white); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; display: flex; gap: 14px; }
+  .oc-ic { width: 38px; height: 38px; border-radius: 10px; background: var(--green-light); color: var(--green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .oc-t { font-size: 14px; font-weight: 600; line-height: 1.35; margin-bottom: 3px; }
+  .oc-d { font-size: 13px; color: var(--ink-light); line-height: 1.55; font-weight: 300; }
+
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
+
+  .mobile-only { display: none; }
+
+  @media (max-width: 980px) {
+    .case-hero-inner { grid-template-columns: 1fr; }
+    .hero-art { max-width: 460px; }
+    .case-layout { grid-template-columns: 1fr; gap: 40px; }
+    .case-sidebar { position: static; order: -1; display: none; }
+  }
+  @media (max-width: 760px) {
+    .dq-dims { grid-template-columns: 1fr 1fr; }
+    .fed-side { flex-direction: column; gap: 4px; }
+    nav { padding: 0 20px; }
+    .case-hero { padding: 56px 20px 48px; }
+    .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+    .stat-num { font-size: 32px; }
+    .case-layout { padding: 40px 16px; }
+    figure.fig { padding: 18px 14px 14px; }
+    .emap, .pv { grid-template-columns: 1fr; }
+    .emap-arrow, .pv-arrow { transform: rotate(90deg); height: 30px; }
+    .flow { flex-direction: column; }
+    .flow-arrow { width: auto; height: 26px; transform: rotate(90deg); }
+    .fed-tier { grid-template-columns: 1fr; gap: 10px; }
+    .fed-tier.t1, .fed-tier.t2 { width: 100%; }
+    .fed-regions { grid-template-columns: repeat(2, 1fr); }
+    .tier-cards, .adopt, .outcomes { grid-template-columns: 1fr; }
+    .aiact { grid-template-columns: 1fr; }
+    .ws-divider { flex-direction: column; align-items: flex-start; padding: 22px; }
+    .case-section h2 { font-size: 26px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">&larr; Data &amp; AI Governance</a>
+  <a href="index.html#portfolio" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<!-- HERO -->
+<header class="case-hero">
+  <div class="case-hero-inner">
+    <div>
+      <div class="case-hero-badge">Portfolio Case Study &middot; Consultancy Engagement &middot; Anonymised</div>
+      <h1>Building Data &amp; AI Governance <em>from the Ground Up</em></h1>
+      <p class="case-hero-sub">Engaged through Decision Inc UK to stand up data and AI governance for a global renewable energy developer: a Microsoft Purview platform build, a federated ownership model, EU AI Act controls, and an MCP gateway that moved 8,000+ users onto governed AI access.</p>
+      <div class="case-meta-row">
+        <div><div class="case-meta-label">Industry</div><div class="case-meta-value">Renewable Energy</div></div>
+        <div><div class="case-meta-label">Role</div><div class="case-meta-value">Data &amp; AI Governance Lead</div></div>
+        <div><div class="case-meta-label">Engaged via</div><div class="case-meta-value">Decision Inc UK</div></div>
+        <div><div class="case-meta-label">Dates</div><div class="case-meta-value">June &ndash; October 2026</div></div>
+      </div>
+    </div>
+    <!-- Hero illustration: governed data estate feeding AI through a gateway -->
+    <svg class="hero-art" viewBox="0 0 440 340" role="img" aria-label="Illustration: data sources flow through a governance layer and a gateway before reaching AI assistants">
+      <defs>
+        <linearGradient id="hg" x1="0" x2="1"><stop offset="0" stop-color="#6fd394" stop-opacity="0.15"/><stop offset="1" stop-color="#6fd394" stop-opacity="0.6"/></linearGradient>
+      </defs>
+      <!-- sources -->
+      <g font-family="DM Mono, monospace" font-size="10" fill="rgba(255,255,255,0.75)">
+        <g transform="translate(14,40)"><rect width="104" height="40" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)"/><ellipse cx="22" cy="14" rx="9" ry="4" fill="none" stroke="#6fd394"/><path d="M13 14v12c0 2 4 4 9 4s9-2 9-4V14" fill="none" stroke="#6fd394"/><text x="38" y="24">SYNAPSE</text></g>
+        <g transform="translate(14,100)"><rect width="104" height="40" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)"/><path d="M14 12l8-4 8 4-8 4z M14 18l8 4 8-4 M14 24l8 4 8-4" fill="none" stroke="#6fd394"/><text x="38" y="24">FABRIC</text></g>
+        <g transform="translate(14,160)"><rect width="104" height="40" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)"/><rect x="13" y="10" width="18" height="20" rx="3" fill="none" stroke="#6fd394"/><path d="M17 16h10M17 20h10M17 24h6" stroke="#6fd394"/><text x="38" y="24">BLOB</text></g>
+        <g transform="translate(14,220)"><rect width="104" height="40" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)"/><circle cx="20" cy="17" r="6" fill="none" stroke="#6fd394"/><circle cx="27" cy="23" r="5" fill="none" stroke="#6fd394"/><text x="38" y="24">SHAREPOINT</text></g>
+      </g>
+      <!-- flows into purview -->
+      <g fill="none" stroke="url(#hg)" stroke-width="2">
+        <path d="M118 60 C150 60 150 150 178 150"/><path d="M118 120 C150 120 150 155 178 155"/>
+        <path d="M118 180 C150 180 150 160 178 160"/><path d="M118 240 C150 240 150 165 178 165"/>
+      </g>
+      <!-- purview hexagon -->
+      <g transform="translate(178,98)">
+        <path d="M44 0 L88 26 L88 94 L44 120 L0 94 L0 26 Z" fill="rgba(255,255,255,0.1)" stroke="#6fd394" stroke-width="1.5"/>
+        <path d="M44 34 l18 10v20c0 10-8 16-18 20-10-4-18-10-18-20V44z" fill="none" stroke="#fff" stroke-width="1.6"/>
+        <path d="M36 62l6 6 11-12" fill="none" stroke="#6fd394" stroke-width="2" stroke-linecap="round"/>
+        <text x="44" y="142" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(255,255,255,0.8)">PURVIEW</text>
+      </g>
+      <!-- gateway -->
+      <path d="M266 160 L300 160" stroke="#6fd394" stroke-width="2"/>
+      <g transform="translate(300,118)">
+        <rect width="34" height="84" rx="8" fill="#0e1a14" stroke="#6fd394" stroke-width="1.5"/>
+        <rect x="9" y="14" width="16" height="12" rx="2" fill="none" stroke="#6fd394"/><path d="M12 14v-4a5 5 0 0110 0v4" fill="none" stroke="#6fd394"/>
+        <circle cx="17" cy="46" r="3" fill="#6fd394"/><circle cx="17" cy="58" r="3" fill="#6fd394" opacity="0.6"/><circle cx="17" cy="70" r="3" fill="#6fd394" opacity="0.3"/>
+        <text x="17" y="104" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(255,255,255,0.8)">MCP</text>
+      </g>
+      <!-- AI tools -->
+      <g fill="none" stroke="rgba(111,211,148,0.6)" stroke-width="1.5">
+        <path d="M334 145 C360 145 360 90 380 90"/><path d="M334 160 L380 160"/><path d="M334 175 C360 175 360 230 380 230"/>
+      </g>
+      <g font-family="DM Sans, sans-serif" font-size="11" font-weight="600" fill="#fff">
+        <g transform="translate(380,72)"><circle cx="18" cy="18" r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)"/><path d="M18 9v18M9 18h18M12 12l12 12M24 12L12 24" stroke="#fff" stroke-width="1.3"/></g>
+        <g transform="translate(380,142)"><circle cx="18" cy="18" r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)"/><path d="M10 22c3-9 13-9 16 0" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="18" cy="14" r="3" fill="#fff"/></g>
+        <g transform="translate(380,212)"><circle cx="18" cy="18" r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)"/><circle cx="18" cy="18" r="8" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M18 10v16M10 18h16" stroke="#fff" stroke-width="1"/></g>
+      </g>
+      <g font-family="DM Mono, monospace" font-size="9" fill="rgba(255,255,255,0.6)" text-anchor="middle">
+        <text x="398" y="126">CLAUDE</text><text x="398" y="196">COPILOT</text><text x="398" y="266">CHATGPT</text>
+      </g>
+      <!-- blocked asset -->
+      <g transform="translate(250,262)">
+        <rect width="120" height="34" rx="8" fill="rgba(180,35,24,0.18)" stroke="rgba(255,140,130,0.6)" stroke-dasharray="4 3"/>
+        <circle cx="17" cy="17" r="8" fill="#b42318"/><path d="M13.5 13.5l7 7M20.5 13.5l-7 7" stroke="#fff" stroke-width="1.8"/>
+        <text x="32" y="21" font-family="DM Mono, monospace" font-size="9" fill="rgba(255,255,255,0.85)">HIGHLY CONF.</text>
+      </g>
+      <path d="M317 202 L317 262" stroke="rgba(255,140,130,0.6)" stroke-dasharray="3 3"/>
+    </svg>
+  </div>
+</header>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat-item"><div class="stat-num">8,000+</div><div class="stat-lbl">Users reprofiled onto governed AI access</div></div>
+    <div class="stat-item"><div class="stat-num">100+</div><div class="stat-lbl">Highly Confidential assets kept out of AI tools</div></div>
+    <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">Data sources onboarded to Microsoft Purview</div></div>
+    <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Business domains with agreed data owners</div></div>
+  </div>
+</div>
+
+<div class="case-layout">
+  <main class="case-content">
+
+    <!-- 01 -->
+    <div class="case-section" id="s1">
+      <p class="case-section-num">Section 01</p>
+      <h2>Executive Summary</h2>
+      <p>From June to October 2026 I was the Data &amp; AI Governance Lead on a Decision Inc UK engagement with a global renewable energy developer. The business had grown largely through acquisition, had no formal data governance function, and was rolling out AI assistants to thousands of staff on top of a data platform that was itself mid-migration.</p>
+      <p>My brief was to build governance that let the business trust its data and adopt AI with the right controls in place. I ran it as one engagement with two workstreams sitting on a shared foundation:</p>
+      <ul class="case-list">
+        <li><span><strong>Workstream A: Data governance and the Purview platform.</strong> Implemented Microsoft Purview as the enterprise governance platform across 4 data sources, stood up a Finance data product with live data quality scoring, and authored a federated data ownership framework covering 12 business domains.</span></li>
+        <li><span><strong>Workstream B: AI governance foundations and the MCP gateway.</strong> Proposed and oversaw an MCP server gateway that now sits between staff and Claude, Copilot and ChatGPT. It reprofiled 8,000+ users into role-based access tiers and, using Purview DLP, stopped 100+ Highly Confidential assets from being processed by AI tools.</span></li>
+      </ul>
+
+      <figure class="fig">
+        <div class="fig-label">Engagement structure</div>
+        <div class="emap">
+          <div class="emap-col">
+            <div class="emap-node found"><div class="emap-k">Foundation</div><div class="emap-t">Assessment &amp; operating model</div><div class="emap-d">11 core gaps, signed-off framework, policies and stewardship roles</div></div>
+          </div>
+          <div class="emap-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="emap-col">
+            <div class="emap-node ws"><div class="emap-k">Workstream A</div><div class="emap-t">Data governance &amp; Purview platform</div><div class="emap-d">Data Map, catalogue, classification, data quality, federated ownership</div></div>
+            <div class="emap-node ws b"><div class="emap-k">Workstream B</div><div class="emap-t">AI governance &amp; MCP gateway</div><div class="emap-d">Access tiers, DLP for AI, EU AI Act inventory and policy</div></div>
+          </div>
+          <div class="emap-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="emap-col">
+            <div class="emap-node live"><div class="emap-k">Shared go-live</div><div class="emap-t">One governed platform</div><div class="emap-d">Both workstreams land together on the new data platform, with stewards trained to run it</div></div>
+          </div>
+        </div>
+        <figcaption><b>Fig 1</b>One engagement, two workstreams. The foundation work had to be agreed first, because both the platform build and the AI controls depended on the same ownership model and classification scheme.</figcaption>
+      </figure>
+    </div>
+
+    <!-- 02 -->
+    <div class="case-section" id="s2">
+      <p class="case-section-num">Section 02</p>
+      <h2>Context &amp; Starting Point</h2>
+      <p>The client is a renewable energy developer and operator working across several continents. Years of acquisitions had left data spread across platforms and regions, with nobody formally accountable for most of it.</p>
+      <ul class="case-list">
+        <li><span><strong>No governance function.</strong> There was no agreed framework, policy set, ownership model or steward network to build on.</span></li>
+        <li><span><strong>A platform in transition.</strong> Analytics ran on a legacy Azure Synapse estate while a new Microsoft Fabric platform was being built alongside it. Governance had to work on both.</span></li>
+        <li><span><strong>AI arriving faster than controls.</strong> AI assistants were being adopted across the business, and they inherited default permissions that had often been granted at company level. In practice, an AI tool could see whatever a user's tenant permissions allowed, whether or not that was appropriate.</span></li>
+        <li><span><strong>Regulatory pressure.</strong> Parts of the business fall within the scope of the EU AI Act, so AI use needed an inventory, risk classification and a policy before it scaled further.</span></li>
+      </ul>
+      <div class="callout"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">Why this mattered</div><p class="callout-text">Data governance and AI governance aren't separate problems here. An AI tool is only as safe as the classification, ownership and access rules underneath it, so the AI controls had to be built on the same foundation as the data platform.</p></div></div>
+    </div>
+
+    <!-- 03 -->
+    <div class="case-section" id="s3">
+      <p class="case-section-num">Section 03</p>
+      <h2>Foundation: Assessment &amp; Operating Model</h2>
+      <p>In the first month I completed a governance and security assessment of the legacy data platform. It surfaced <strong>11 core risk exposures and control gaps</strong>, and I wrote a remediation plan for each one. Those plans became a prioritised roadmap that senior stakeholders adopted as the basis for the engagement.</p>
+      <p>Alongside the assessment, I secured executive sponsorship and stakeholder sign-off on the governance framework, policies, standards and stewardship roles. That gave the business an agreed operating model before any tooling went in, which mattered: it's much easier to configure a platform when people have already agreed who owns what.</p>
+
+      <figure class="fig">
+        <div class="fig-label">Governance document set I authored</div>
+        <div class="doc-grid">
+          <div class="doc key"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>Platform security assessment</div>
+          <div class="doc key"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg>Remediation roadmap</div>
+          <div class="doc key"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Data governance framework</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Terms of reference</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18"/></svg>Regulatory landscape assessment</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h9"/></svg>Compliance register</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.5 3-6 6-6s6 2.5 6 6M15 20c0-2.5 1.5-4.5 4-4.5"/></svg>Data ownership framework</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>Solution justifications</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>Design &amp; delivery plan</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Report inventory</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 6v6l4 2"/></svg>90-day delivery tracker</div>
+          <div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 1-4.5 4.5 1 6.5L12 17l-5.5 3 1-6.5L3 9l6-1z"/></svg>AI usage policy</div>
+        </div>
+        <figcaption><b>Fig 2</b>The policy foundation, indexed in a single governance documents map so stakeholders could see what existed, what was signed off and what was still in draft.</figcaption>
+      </figure>
+    </div>
+
+    <!-- WORKSTREAM A -->
+    <div class="ws-divider" id="wsa">
+      <div class="ws-letter">A</div>
+      <div>
+        <div class="ws-eyebrow">Workstream A</div>
+        <div class="ws-title">Data Governance &amp; the Purview Platform</div>
+        <div class="ws-desc">Making governed metadata, ownership and quality visible in one place, on both the legacy and the new data platform.</div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="case-section" id="s4">
+      <p class="case-section-num">Section 04</p>
+      <h2>Microsoft Purview Build &amp; Rollout</h2>
+      <p>I implemented Microsoft Purview as the enterprise governance platform and led its rollout across <strong>4 data sources: Azure Synapse, Microsoft Fabric, Azure Blob Storage and SharePoint</strong>. I configured the Data Map, Unified Catalog, classification and business glossary, and switched on Data Quality, creating a single source of governed metadata for the analytics estate.</p>
+      <p>Rather than try to catalogue everything at once, I scoped the first release around one high-value data product: the <strong>Finance cost centre report</strong>, used at CFO level. I ingested Finance data from all four sources, but the cost centre report stayed the primary data product, so the business could see governance working end to end on something it genuinely cared about. HR was set up as a placeholder domain, ready for the next phase.</p>
+
+      <figure class="fig">
+        <div class="fig-label">Purview architecture, as built</div>
+        <div class="pv">
+          <div class="pv-col src">
+            <div class="pv-h">1 · Sources</div>
+            <div class="pv-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/></svg>Azure Synapse</div>
+            <div class="pv-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>Microsoft Fabric</div>
+            <div class="pv-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Azure Blob Storage</div>
+            <div class="pv-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="10" r="5"/><circle cx="15" cy="15" r="5"/></svg>SharePoint</div>
+          </div>
+          <div class="pv-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pv-col map">
+            <div class="pv-h">2 · Data Map</div>
+            <div class="pv-tree">
+              <div>&#9634; Root</div>
+              <div class="t1">&#9492; Synapse</div>
+              <div class="t2">&#9492; Finance</div>
+              <div class="t1">&#9492; Fabric</div>
+              <div class="t2">&#9492; Finance</div>
+              <div class="t1">&#9492; Blob</div>
+              <div class="t1">&#9492; SharePoint</div>
+            </div>
+            <div style="font-size:11.5px;color:var(--ink-mid);line-height:1.5">Scanning, classification and lineage. Domain sub-collections sit under each source, so one source can serve many domains.</div>
+          </div>
+          <div class="pv-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pv-col cat">
+            <div class="pv-h">3 · Unified Catalog</div>
+            <div class="pv-dom"><strong>Finance domain</strong>Glossary terms, owners, stewards
+              <div class="pv-prod"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8l-9-5-9 5v8l9 5z"/></svg>Cost centre report</div>
+            </div>
+            <div class="pv-dom ph"><strong style="color:var(--ink-light)">HR domain</strong>Placeholder, ready for next phase</div>
+          </div>
+          <div class="pv-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pv-col dq">
+            <div class="pv-h">4 · Data Quality</div>
+            <div class="dq-dims">
+              <div class="dq-dim">Completeness</div><div class="dq-dim">Uniqueness</div>
+              <div class="dq-dim">Accuracy</div><div class="dq-dim">Conformity</div>
+              <div class="dq-dim">Consistency</div><div class="dq-dim">Timeliness</div>
+            </div>
+            <div class="pv-note">Rules run against the cost centre report across Purview's default quality dimensions, giving the data owner a score they can track.</div>
+          </div>
+        </div>
+        <figcaption><b>Fig 3</b>From registered source to scored data product. The collection hierarchy follows Microsoft's recommended pattern for sources shared across business domains.</figcaption>
+      </figure>
+
+      <h3>Governance by design</h3>
+      <p>Working with the analytics team, I extended these controls into the data platforms, warehouses and pipelines themselves, so governance is built in as new assets are created rather than bolted on afterwards. The same collection structure was mirrored on the new Fabric platform, so moving off the legacy estate doesn't mean starting governance again.</p>
+    </div>
+
+    <!-- 05 -->
+    <div class="case-section" id="s5">
+      <p class="case-section-num">Section 05</p>
+      <h2>Federated Data Ownership</h2>
+      <p>An organisation built through acquisition doesn't have one way of using data, so a purely central ownership model wouldn't have stuck. I authored an <strong>enterprise-wide, federated data ownership framework</strong>, working with the business to map how data is really used before agreeing who should own it.</p>
+      <p>The result is <strong>12 business domains</strong> with agreed owners. Every region shares the same domain structure, which keeps reporting consistent globally, while regional stewards handle the day-to-day work locally.</p>
+
+      <figure class="fig">
+        <div class="fig-label">Federated ownership model</div>
+        <div class="fed">
+          <div class="fed-tier t1">
+            <div><div class="fed-k">Central</div><div class="fed-t">Data &amp; AI Governance</div></div>
+            <div class="fed-d">Sets the framework, policies, standards and tooling. Tracks governance KPIs and reports to the executive sponsor.</div>
+          </div>
+          <div class="fed-conn"></div>
+          <div class="fed-tier t2">
+            <div><div class="fed-k">Accountable</div><div class="fed-t">Domain data owners</div><div class="fed-d" style="color:var(--ink-light)">12 domains, same across every region</div></div>
+            <div class="fed-pills"><span class="fed-pill">Finance</span><span class="fed-pill">HR</span><span class="fed-pill">Operations</span><span class="fed-pill more">+ 9 more domains</span></div>
+          </div>
+          <div class="fed-conn"></div>
+          <div class="fed-tier t3">
+            <div><div class="fed-k">Responsible</div><div class="fed-t">Regional data stewards</div><div class="fed-d">9 stewards, each representing a domain in a region</div></div>
+            <div class="fed-regions">
+              <div class="fed-region"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/></svg><div>UK&amp;I</div></div>
+              <div class="fed-region"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/></svg><div>EMEA</div></div>
+              <div class="fed-region"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/></svg><div>Americas</div></div>
+              <div class="fed-region"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/></svg><div>Australia</div></div>
+            </div>
+          </div>
+          <div class="fed-side" style="width:100%"><span>&uarr; Standards flow down</span><span>Issues &amp; local context flow up &darr;</span></div>
+        </div>
+        <figcaption><b>Fig 4</b>Central where consistency matters, local where context matters. Owners are accountable for a domain globally; stewards make it work in their region.</figcaption>
+      </figure>
+    </div>
+
+    <!-- WORKSTREAM B -->
+    <div class="ws-divider" id="wsb">
+      <div class="ws-letter">B</div>
+      <div>
+        <div class="ws-eyebrow">Workstream B</div>
+        <div class="ws-title">AI Governance Foundations &amp; the MCP Gateway</div>
+        <div class="ws-desc">Controlling who uses which AI tool, for what, for how long, and with which data, without slowing adoption down.</div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="case-section" id="s6">
+      <p class="case-section-num">Section 06</p>
+      <h2>The MCP Server Gateway</h2>
+      <p>The core risk was simple. Claude, Copilot and ChatGPT were reaching company data through permissions that had been granted at company level, long before anyone was thinking about AI. Tightening each tool separately would have been slow and inconsistent.</p>
+      <p>I proposed a different approach: put a single <strong>Model Context Protocol (MCP) server gateway</strong> between staff and every AI tool, and govern access there. The idea was mine; Decision Inc engineers built it for the client, and I acted as design authority and supervised the build through testing and go-live.</p>
+
+      <figure class="fig">
+        <div class="fig-label">How AI access changed</div>
+        <div class="ba">
+          <div class="ba-panel before">
+            <span class="ba-tag">Before</span>
+            <div class="flow">
+              <div class="flow-node"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></div><div class="fn-t">Any employee</div><div class="fn-d">No distinction by role or need</div></div>
+              <div class="flow-arrow red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node bad"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 019.9-1"/></svg></div><div class="fn-t">Default tenant permissions</div><div class="fn-d">Often granted company-wide</div></div>
+              <div class="flow-arrow red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node bad"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 010 6h-1v1a4 4 0 01-8 0v-1H7a3 3 0 010-6h1V6a4 4 0 014-4z"/></svg></div><div class="fn-t">Claude &middot; Copilot &middot; ChatGPT</div><div class="fn-d">Could process whatever the user could reach, including Highly Confidential data</div></div>
+            </div>
+          </div>
+          <div class="ba-panel after">
+            <span class="ba-tag">After</span>
+            <div class="flow">
+              <div class="flow-node"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-3.5 3-6 7-6s7 2.5 7 6"/><circle cx="17" cy="7" r="2.5"/><path d="M16 14c3 0 6 2 6 5"/></svg></div><div class="fn-t">Access tier</div><div class="tiers"><span class="tier">Technical</span><span class="tier">Curators</span><span class="tier">Consumers</span></div></div>
+              <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node gw"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/><circle cx="17" cy="15" r="1.5"/></svg></div><div class="fn-t">MCP gateway</div><div class="checks"><span class="check">Who is asking</span><span class="check">Which tool, for what purpose</span><span class="check">For how long</span><span class="check">What data is in scope</span></div></div>
+              <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node dlp"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div class="fn-t">Purview DLP check</div><div class="fn-d">Sensitivity classification decides what can be sent to AI</div></div>
+              <div class="flow-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node"><div class="fn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 010 6h-1v1a4 4 0 01-8 0v-1H7a3 3 0 010-6h1V6a4 4 0 014-4z"/></svg></div><div class="fn-t">AI tools</div><div class="ai-list"><span class="ai">Claude</span><span class="ai">Copilot</span><span class="ai">ChatGPT</span></div></div>
+            </div>
+            <div class="blocked"><span class="x">&times;</span><span><strong>100+ Highly Confidential assets</strong> stopped at the DLP check during testing and go-live, never reaching an AI tool.</span></div>
+          </div>
+        </div>
+        <figcaption><b>Fig 5</b>The gateway vets both the person and the information, so access no longer depends on whatever default permissions existed in the tenant.</figcaption>
+      </figure>
+
+      <h3>Three access tiers for 8,000+ users</h3>
+      <p>Every user was reprofiled by how critical AI is to their work, then given role-based access that controls which tools they use, for what purpose and for how long.</p>
+      <div class="tier-cards">
+        <div class="tier-card"><div class="tc-k">Tier 1</div><div class="tc-t">Technical</div><div class="tc-d">Engineers and data specialists who build with AI and need the broadest, most capable access.</div></div>
+        <div class="tier-card"><div class="tc-k">Tier 2</div><div class="tc-t">Curators</div><div class="tc-d">Business owners accountable for data in their domain, with access matched to the data they own.</div></div>
+        <div class="tier-card"><div class="tc-k">Tier 3</div><div class="tc-t">Consumers</div><div class="tc-d">Every other employee, with governed, purpose-limited access to approved AI tools.</div></div>
+      </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="case-section" id="s7">
+      <p class="case-section-num">Section 07</p>
+      <h2>EU AI Act Controls</h2>
+      <p>I turned the EU AI Act into working controls for the parts of the business it affects. That started with an <strong>AI use-case inventory</strong> covering <strong>5 AI use cases</strong>, each classified against the Act's four risk tiers, and finished with an AI usage policy aligned to <strong>ISO/IEC 42001</strong>.</p>
+
+      <figure class="fig">
+        <div class="fig-label">From regulation to working controls</div>
+        <div class="aiact">
+          <div class="pyr" role="img" aria-label="EU AI Act risk pyramid: unacceptable, high, limited, minimal">
+            <div class="pyr-l u">Unacceptable<small>prohibited</small></div>
+            <div class="pyr-l h">High risk<small>strict obligations</small></div>
+            <div class="pyr-l l">Limited risk<small>transparency duties</small></div>
+            <div class="pyr-l m">Minimal risk<small>voluntary good practice</small></div>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="step-dot">01</div><div><div class="step-t">Inventory</div><div class="step-d">5 AI use cases recorded with owner, purpose and data used</div></div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-dot">02</div><div><div class="step-t">Classify</div><div class="step-d">Each use case placed in a risk tier using a repeatable approach</div></div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-dot">03</div><div><div class="step-t">Control</div><div class="step-d">Controls matched to the tier, enforced through the gateway and DLP</div></div></div>
+            <div class="step-line"></div>
+            <div class="step"><div class="step-dot">04</div><div><div class="step-t">Policy</div><div class="step-d">AI usage policy aligned to ISO/IEC 42001</div></div></div>
+          </div>
+        </div>
+        <figcaption><b>Fig 6</b>The EU AI Act's four risk tiers, and the four steps used to turn them into controls the business could actually operate.</figcaption>
+      </figure>
+    </div>
+
+    <!-- 08 -->
+    <div class="case-section" id="s8">
+      <p class="case-section-num">Section 08</p>
+      <h2>Adoption &amp; Enablement</h2>
+      <p>Governance only works if people use it. I drove adoption through data steward onboarding, regional training and executive engagement, and tracked progress against defined governance KPIs.</p>
+      <figure class="fig">
+        <div class="adopt">
+          <div class="adopt-tile"><div class="adopt-num">9</div><div class="adopt-lbl">Data stewards onboarded, each representing a domain and region</div></div>
+          <div class="adopt-tile"><div class="adopt-num">3</div><div class="adopt-lbl">Regional training sessions delivered</div></div>
+          <div class="adopt-tile"><div class="adopt-num">4</div><div class="adopt-lbl">Regions covered by the steward network</div></div>
+        </div>
+        <div class="region-row"><span class="region-pill">UK&amp;I</span><span class="region-pill">EMEA</span><span class="region-pill">Americas</span><span class="region-pill">Australia</span></div>
+        <figcaption><b>Fig 7</b>The steward network and training footprint at handover.</figcaption>
+      </figure>
+    </div>
+
+    <!-- 09 -->
+    <div class="case-section" id="s9">
+      <p class="case-section-num">Section 09</p>
+      <h2>Outcomes</h2>
+      <div class="outcomes">
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M16 11l2 2 4-4"/></svg></div><div><div class="oc-t">8,000+ users on governed AI access</div><div class="oc-d">Reprofiled into three role-based tiers, with access controlled by tool, purpose and duration.</div></div></div>
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div><div><div class="oc-t">100+ Highly Confidential assets protected</div><div class="oc-d">Blocked from AI processing by Purview DLP through the gateway, during testing and go-live.</div></div></div>
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/></svg></div><div><div class="oc-t">Purview live across 4 data sources</div><div class="oc-d">Data Map, catalogue, classification, glossary and data quality scoring on a CFO-level data product.</div></div></div>
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div><div class="oc-t">12 domains with agreed owners</div><div class="oc-d">A federated ownership model shared across all regions, run by 9 regional stewards.</div></div></div>
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg></div><div><div class="oc-t">11 core gaps, each with a plan</div><div class="oc-d">Assessment delivered within the first month and adopted by senior stakeholders as the roadmap.</div></div></div>
+        <div class="oc"><div class="oc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h9"/></svg></div><div><div class="oc-t">EU AI Act ready</div><div class="oc-d">5 AI use cases inventoried and risk-classified, with an ISO/IEC 42001-aligned AI usage policy.</div></div></div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="case-section" id="s10">
+      <p class="case-section-num">Section 10</p>
+      <h2>What I'd Take Forward</h2>
+      <ul class="case-list">
+        <li><span><strong>Prove the platform on one thing people care about.</strong> Narrowing the first release to a single CFO-level data product got governance working end to end, instead of half-configured everywhere.</span></li>
+        <li><span><strong>Govern AI at the access layer, not tool by tool.</strong> One gateway gave consistent rules across three different AI products and made it possible to add tools later without redoing the controls.</span></li>
+        <li><span><strong>Agree ownership before configuring tooling.</strong> The signed-off ownership model made the Purview collections, catalogue domains and AI access tiers straightforward to design, because the hard conversations had already happened.</span></li>
+      </ul>
+    </div>
+
+  </main>
+
+  <aside class="case-sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-title">Sections</p>
+      <div class="sidebar-links">
+        <a href="#s1" class="sidebar-link">01 · Executive Summary</a>
+        <a href="#s2" class="sidebar-link">02 · Context</a>
+        <a href="#s3" class="sidebar-link">03 · Foundation</a>
+        <div class="sidebar-group">Workstream A</div>
+        <a href="#s4" class="sidebar-link">04 · Purview Build</a>
+        <a href="#s5" class="sidebar-link">05 · Data Ownership</a>
+        <div class="sidebar-group">Workstream B</div>
+        <a href="#s6" class="sidebar-link">06 · MCP Gateway</a>
+        <a href="#s7" class="sidebar-link">07 · EU AI Act</a>
+        <a href="#s8" class="sidebar-link">08 · Adoption</a>
+        <a href="#s9" class="sidebar-link">09 · Outcomes</a>
+        <a href="#s10" class="sidebar-link">10 · Takeaways</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Tools &amp; Frameworks</p>
+      <div class="sidebar-tools">
+        <span class="tool-tag">Microsoft Purview</span><span class="tool-tag">Purview DLP</span><span class="tool-tag">Azure Synapse</span><span class="tool-tag">Microsoft Fabric</span><span class="tool-tag">Azure</span><span class="tool-tag">SharePoint</span><span class="tool-tag">MCP</span><span class="tool-tag">Entra ID</span><span class="tool-tag">EU AI Act</span><span class="tool-tag">ISO/IEC 42001</span><span class="tool-tag">DAMA-DMBOK</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span class="footer-note">&copy; 2026 Calvin Enobor &middot; Data &amp; AI Governance</span>
+  <span class="footer-note">Client identity anonymised &middot; Engaged via Decision Inc UK</span>
+</footer>
+
+</body>
+</html>
